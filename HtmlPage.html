@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="StyleSheet.css">
+</head>
+<body>
+    <div class="landingPageHeading">
+        <h1>ארץ עיר</h1>
+    </div>
+    <div class="landingPageSubHeading">
+        <h2>בחר קטגורייה</h2>
+    </div>
+    <div class="wrapperDiv">
+        <form id="mainForm">
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="country">
+                <div class="radio-text">ארץ</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="city">
+                <div class="radio-text">עיר</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="animal">
+                <div class="radio-text">חי</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="plant">
+                <div class="radio-text">צומח</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="object">
+                <div class="radio-text">דומם</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="boyName">
+                <div class="radio-text">שם של בן</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="girlName">
+                <div class="radio-text">שם של בת</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="profession">
+                <div class="radio-text">מקצוע</div>
+            </label>
+            <label class="custom-radio">
+                <input type="radio" name="countryCityRadio" value="celebrity">
+                <div class="radio-text">אישיות</div>
+            </label>
+
+            <h2 style="margin-top: 100px; padding-bottom: 10px;"><label for="letter">בחר אות</label></h2><br>
+            <input type="text" id="letter" name="letter" value="" style="width: 40px; border: 2px groove 1px; box-shadow: 2px grey; margin-bottom: 80px; font-size: 30px;"><br />
+            <input type="button" id="searchButton" aria-label="Search" style="background: url('https://cdn-icons-png.flaticon.com/512/346/346072.png') no-repeat center; 
+                    width: 50px; height: 50px; background-size: contain; cursor: pointer; border: none;" onclick="submitForm()">
+        </form>
+    </div>
+
+    <script>
+        function submitForm() {
+            // Get the selected radio button value
+            var radioValue = document.querySelector('input[name="countryCityRadio"]:checked');
+
+            // Check if a radio button is selected
+            if (radioValue) {
+                radioValue = radioValue.value;
+            } else {
+                alert('Please select a category.');
+                return;
+            }
+
+            // Map radio values to corresponding column names
+            var columnMap = {
+                'country': 'CountryName',
+                'city': 'CityName',
+                'animal': 'AnimalName',
+                'plant': 'PlantName',
+                'object': 'ObjectName',
+                'boyName': 'BName',
+                'girlName': 'GName',
+                'profession': 'ProfessionName',
+                'celebrity': 'CelebrityName'
+            };
+
+            var columnName = columnMap[radioValue];
+
+            // Get the text input value
+            var textInputValue = document.getElementById('letter').value;
+
+            var isHebrew = /^[\u0590-\u05FF]+$/.test(textInputValue);
+
+            if (!isHebrew) {
+                alert('Please enter a valid Hebrew letter.');
+                return;
+            }
+
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Create an XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+
+            // Open a connection
+            xhr.open("POST", "processRequest.php", true);
+
+            // Set the request header
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            // Define what happens on successful data submission
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Parse the JSON response
+                    var data = JSON.parse(xhr.responseText);
+
+                    // Get the container where results will be displayed
+                    var resultsContainer = document.getElementById('resultsContainer');
+                    resultsContainer.innerHTML = ''; // Clear previous results
+
+                    // Check if data is not empty
+                    if (data.length > 0) {
+                        // Create and append elements for each item in the response
+                        data.forEach(function (item) {
+                            var element = document.createElement('div');
+                            element.textContent = item[columnName]; // Use the dynamic column name
+                            resultsContainer.appendChild(element);
+                        });
+                    } else {
+                        resultsContainer.innerHTML = 'No results found';
+                    }
+                }
+            };
+
+            // Send the collected data as JSON
+            xhr.send("radioValue=" + radioValue + "&textInputValue=" + textInputValue);
+        }
+    </script>
+
+
+
+</body>
+</html>
