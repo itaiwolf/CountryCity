@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CountryCity Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcead7; /* Light peach background */
+            animation: fadeIn 1s ease; /* Fade-in animation */
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: slideIn 1s ease; /* Slide-in animation */
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        h1 {
+            text-align: center;
+            color: #ff6f61; /* Reddish-pink color for the heading */
+        }
+        form {
+            max-width: 300px;
+            margin: 20px auto;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ff6f61; /* Reddish-pink border */
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff6f61; /* Reddish-pink background */
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #ff574f; /* Darker reddish-pink background on hover */
+        }
+        .rules {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff8e1; /* Light yellow background for rules */
+            border: 1px solid #ffbb93; /* Light orange border for rules */
+            border-radius: 4px;
+        }
+        .start-game-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .start-game-btn button {
+            padding: 10px 20px;
+            background-color: #63cdda; /* Light blue-green background */
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .start-game-btn button:hover {
+            background-color: #52b4b7; /* Darker blue-green background on hover */
+        }
+        .fun-facts {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f8ff; /* Light blue background for fun facts */
+            border: 1px solid #add8e6; /* Light blue border for fun facts */
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to CountryCity Game</h1>
+        <form action="signin.php" method="post">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Sign In">
+        </form>
+        <div class="rules">
+            <h2>Rules</h2>
+            <p>1. Each player takes turns naming a country or city that starts with the last letter of the previously named place.</p>
+            <p>2. No repetition of places is allowed.</p>
+            <p>3. The game continues until a player cannot think of a valid place.</p>
+        </div>
+        <div class="start-game-btn">
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div class="fun-facts">
+            <h2>Fun Facts</h2>
+            <p id="fun-fact">Loading fun fact...</p>
+        </div>
+    </div>
+
+    <script>
+        function startGame() {
+            // Redirect to the game page
+            window.location.href = "game.html";
+        }
+
+        // Array of fun facts related to the CountryCity game
+        var funFacts = [
+            "Did you know? The longest recorded game of CountryCity lasted over 5 hours!",
+            "In some versions of the game, players must name a place that starts with the last two letters instead of just the last letter.",
+            "CountryCity is known by different names in different countries, such as 'Cities' or 'Geography'.",
+            "The game can be played with various categories, such as animals, food, or movies, instead of just countries and cities."
+        ];
+
+        // Function to display a random fun fact
+        function displayFunFact() {
+            var randomIndex = Math.floor(Math.random() * funFacts.length);
+            document.getElementById("fun-fact").innerText = funFacts[randomIndex];
+        }
+
+        // Display a new fun fact every 5 seconds
+        setInterval(displayFunFact, 5000);
+        
+        // Initial fun fact display
+        displayFunFact();
+    </script>
+</body>
+</html>
