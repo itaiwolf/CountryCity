@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -38,7 +39,7 @@
         <h1>ארץ עיר</h1>
     </div>
     <div class="landingPageSubHeading">
-        <h2>התחלת משחק</h2>
+        <h2>גגגהתחלת משחק</h2>
         <button onclick="startActivities()">הגרל אות!</button>
         <style>
             #timerContainer, #tip {
@@ -125,15 +126,57 @@
         לחץ TAB כדי לעבור מהר בין התאים
     </div>
 
+    <div>
+        <input type="button" id="sendButton" style="background: url('https://cdn-icons-png.flaticon.com/512/346/346072.png') no-repeat center; 
+        width: 50px; height: 50px; background-size: contain; cursor: pointer; border: none;" onclick="sendForm()">
+    </div>
+    
     <script>
     function startGame() {
         document.getElementById("categoriesContainer").style.display = "flex"; // Change display to flex to show the container
     }
     </script>
     
-
-
     <script>
+        function checkStartingLetter(){
+
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        async function sendForm(){
+            console.log("I'm inside sendForm");
+            var country = document.getElementById('country');
+            console.log(country.value);
+            console.log(country);
+
+            const encodedParams = new URLSearchParams();
+            encodedParams.set('from', 'he');
+            encodedParams.set('to', 'en');
+            encodedParams.set('text', country.value);
+
+            const options = {
+            method: 'POST',
+            url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'X-RapidAPI-Key': '5b4b303f2amsh7b658041f443c80p189bd8jsn6a61e188b3f0',
+                'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
+            },
+            data: encodedParams,
+            };
+
+            try {
+                const response = await axios.request(options);
+                console.log(response.data);
+                console.log(response.data.trans);
+                country.value = response.data.trans;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
         function submitForm() {
             // Get the selected radio button value
             var radioValue = document.querySelector('input[name="countryCityRadio"]:checked');
