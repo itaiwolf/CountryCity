@@ -5,23 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c53d50e3-0dbb-4ac6-81a7-0016f5c17d34" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CountryCity.sln" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/listCountries.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQLQuery2.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SQLQuery9.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Solution1.ssmssln" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.htaccess" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/VSWorkspaceState.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/php CountryCity/FileContentIndex/374be5c4-c7e4-421a-953d-eecd3d65c204.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/php CountryCity/FileContentIndex/3ea1d50c-f5a3-4b73-861b-9474d1ba53b6.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/php CountryCity/FileContentIndex/85c6f325-e233-43fe-b062-b9b64504b705.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/php CountryCity/FileContentIndex/99316373-8080-4eb6-88e8-bac17ca225f2.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/php CountryCity/FileContentIndex/bc5b779a-939d-4fa2-af66-f0765d044fa0.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/php CountryCity/v17/.wsuo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/.vs/slnx.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/php CountryCity/processRequest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/מדינות.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,20 +23,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "C:/Users/DELL/iCloudDrive/Personal Computer/TestProjects/DevClub/CountryCity",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "show.migrate.to.gradle.popup": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DELL/iCloudDrive/Personal Computer/TestProjects/DevClub/CountryCity&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -61,7 +45,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1713009147985</updated>
-      <workItem from="1713009149418" duration="916000" />
+      <workItem from="1713009149418" duration="3434000" />
+      <workItem from="1713435157472" duration="19000" />
     </task>
     <servers />
   </component>

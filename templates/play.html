@@ -64,8 +64,9 @@
             const alphabet = "אבגדהוזחטיכלמנסעפצקרשת";
             const randomIndex = Math.floor(Math.random() * alphabet.length);
             const randomLetter = alphabet[randomIndex];
-            document.getElementById("displayLetter").innerHTML = randomLetter+"'";
+            document.getElementById("displayLetter").innerHTML = randomLetter;
         }
+
 
         function startTimer() {
             let time = 0;
@@ -87,38 +88,92 @@
         <div class="category">
             <label for="country">ארץ</label>
             <input type="text" id="country" name="country">
+            <div id="foundCountry" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundCountry" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="city">עיר</label>
             <input type="text" id="city" name="city">
+            <div id="foundCity" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundCity" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="animal">חי</label>
             <input type="text" id="animal" name="animal">
+            <div id="foundAnimal" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundAnimal" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="plant">צומח</label>
             <input type="text" id="plant" name="plant">
+            <div id="foundPlant" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundPlant" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="plant">דומם</label>
-            <input type="text" id="plant" name="plant">
+            <input type="text" id="object" name="object">
+            <div id="foundObject" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundObject" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="plant">בן</label>
-            <input type="text" id="plant" name="plant">
+            <input type="text" id="boy" name="boy">
+            <div id="foundBoy" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundBoy" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="plant">בת</label>
-            <input type="text" id="plant" name="plant">
+            <input type="text" id="girl" name="girl">
+            <div id="foundGirl" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundGirl" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="plant">מקצוע</label>
-            <input type="text" id="plant" name="plant">
+            <input type="text" id="prof" name="prof">
+            <div id="foundProf" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundProf" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
         <div class="category">
             <label for="plant">אישיות</label>
-            <input type="text" id="plant" name="plant">
+            <input type="text" id="celeb" name="celeb">
+            <div id="foundCeleb" style="display: none;">
+                <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
+            </div>
+            <div id="notFoundCeleb" style="display: none;">
+                <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
+            </div>
         </div>
     </div>
     <br>
@@ -144,17 +199,52 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script>
         async function sendForm(){
-            console.log("I'm inside sendForm");
             var country = document.getElementById('country');
-            console.log(country.value);
-            console.log(country);
+            var city = document.getElementById('city');
+            var animal = document.getElementById('animal');
+            
+            let startingLetter = document.getElementById("displayLetter").innerHTML
+            console.log(startingLetter);
 
+            var trCountry = await translate(country.value);
+            var trCity= await translate(city.value);
+            var trAnimal = await translate(animal.value);
+
+            const firstCountry = country.value.charAt(0);
+            console.log(firstCountry)
+            const firstCity = city.value.charAt(0);
+            const firstAnimal = animal.value.charAt(0);
+
+            if(startingLetter === firstCountry && await check_valid("country", "countries", trCountry)){
+                console.log("first leeter country good");
+                document.getElementById("foundCountry").style.display = "block"; // Display the v
+            }
+            else
+                document.getElementById("notFoundCountry").style.display = "block"; // Display the x
+            
+            if(startingLetter === firstCity && await check_valid("city", "citiesInIsrael", trCity)){
+                console.log("first leeter city good")
+                document.getElementById("foundCity").style.display = "block"; // Display the v
+            }
+            else
+                document.getElementById("notFoundCity").style.display = "block"; // Display the x
+
+            if(startingLetter === firstAnimal && await check_valid("animal", "animals", trAnimal)){
+                console.log("first leeter city good")
+                document.getElementById("foundAnimal").style.display = "block"; // Display the v
+            }
+            else
+                document.getElementById("notFoundAnimal").style.display = "block"; // Display the x
+        }
+
+        async function translate(word){
             const encodedParams = new URLSearchParams();
             encodedParams.set('from', 'he');
             encodedParams.set('to', 'en');
-            encodedParams.set('text', country.value);
+            encodedParams.set('text', word);
 
             const options = {
             method: 'POST',
@@ -171,9 +261,27 @@
                 const response = await axios.request(options);
                 console.log(response.data);
                 console.log(response.data.trans);
-                country.value = response.data.trans;
+                //country.value = response.data.trans; // change the text in the field
+                return translated= response.data.trans;
+                //check_valid(translatedCountry);
             } catch (error) {
                 console.error(error);
+            }
+        }
+
+        async function check_valid(collection, field, value) {            
+            try {
+                const response = await axios.get('http://localhost:5000/checkvalid', {
+                    params: { collection, field, value } });
+                if (response.data.valid) {
+                    //console.log("true");
+                    return true;
+                } else {
+                    //console.log("false");
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
         }
 
