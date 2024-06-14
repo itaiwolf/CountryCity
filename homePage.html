@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="he">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CountryCity Game</title>
+    <title>משחק עירים ומדינות</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fcead7; /* Light peach background */
-            animation: fadeIn 1s ease; /* Fade-in animation */
+            background-color: #fcead7; /* רקע דלעת עדין */
+            animation: fadeIn 1s ease; /* אנימציה של התמסרות */
         }
         @keyframes fadeIn {
             from {
@@ -27,7 +27,7 @@
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            animation: slideIn 1s ease; /* Slide-in animation */
+            animation: slideIn 1s ease; /* אנימציה של החלקה */
         }
         @keyframes slideIn {
             from {
@@ -41,7 +41,7 @@
         }
         h1 {
             text-align: center;
-            color: #ff6f61; /* Reddish-pink color for the heading */
+            color: #ff6f61; /* צבע אדום-ורוד */
         }
         form {
             max-width: 300px;
@@ -51,27 +51,27 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            border: 1px solid #ff6f61; /* Reddish-pink border */
+            border: 1px solid #ff6f61; /* גבול אדום-ורוד */
             border-radius: 4px;
             box-sizing: border-box;
         }
         input[type="submit"] {
             width: 100%;
             padding: 10px;
-            background-color: #ff6f61; /* Reddish-pink background */
+            background-color: #ff6f61; /* רקע אדום-ורוד */
             border: none;
             border-radius: 4px;
             color: #fff;
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #ff574f; /* Darker reddish-pink background on hover */
+            background-color: #ff574f; /* רקע אדום-ורוד כהה בעכבר */
         }
         .rules {
             margin-top: 20px;
             padding: 20px;
-            background-color: #fff8e1; /* Light yellow background for rules */
-            border: 1px solid #ffbb93; /* Light orange border for rules */
+            background-color: #fff8e1; /* רקע צהוב עדין */
+            border: 1px solid #ffbb93; /* גבול כתום עדין */
             border-radius: 4px;
         }
         .start-game-btn {
@@ -80,20 +80,20 @@
         }
         .start-game-btn button {
             padding: 10px 20px;
-            background-color: #63cdda; /* Light blue-green background */
+            background-color: #63cdda; /* רקע תכלת-ירוק עדין */
             border: none;
             border-radius: 4px;
             color: #fff;
             cursor: pointer;
         }
         .start-game-btn button:hover {
-            background-color: #52b4b7; /* Darker blue-green background on hover */
+            background-color: #52b4b7; /* רקע תכלת-ירוק כהה בעכבר */
         }
         .fun-facts {
             margin-top: 20px;
             padding: 20px;
-            background-color: #f0f8ff; /* Light blue background for fun facts */
-            border: 1px solid #add8e6; /* Light blue border for fun facts */
+            background-color: #f0f8ff; /* רקע כחול עדין */
+            border: 1px solid #add8e6; /* גבול כחול עדין */
             border-radius: 4px;
             text-align: center;
         }
@@ -101,51 +101,71 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to CountryCity Game</h1>
+        <h1>ברוכים הבאים למשחק "ארץ עיר"</h1>
         <form action="signin.php" method="post">
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <input type="submit" value="Sign In">
+            <input type="text" name="username" placeholder="שם משתמש" required><br>
+            <input type="password" name="password" placeholder="סיסמה" required><br>
+            <input type="submit" value="התחברות">
         </form>
         <div class="rules">
-            <h2>Rules</h2>
-            <p>1. Each player takes turns naming a country or city that starts with the last letter of the previously named place.</p>
-            <p>2. No repetition of places is allowed.</p>
-            <p>3. The game continues until a player cannot think of a valid place.</p>
+            <h2>חוקי המשחק</h2>
+            <p>1. תחילה מגרילים אות אקראית</p>
+            <p>2. על השחקן למצוא מילה שמתחילה באות שהוגרלה בכל אחת מהקטגוריות השונות</p>
+            <p>3. לאחר שסיים למלא את כל המקומות הריקים מקבל ניקוד ויכול לעבור לאות חדשה!</p>
         </div>
         <div class="start-game-btn">
-            <button onclick="startGame()">Start Game</button>
+            <button onclick="startGame()">התחל משחק</button>
         </div>
+        <table id="score-table" style="margin-top: 20px;">
+            <caption>טבלת ניקוד</caption>
+            <tr>
+                <th>שחקן</th>
+                <th>ניקוד</th>
+            </tr>
+            <!-- Insert score rows dynamically using JavaScript -->
+        </table>
+        
         <div class="fun-facts">
-            <h2>Fun Facts</h2>
-            <p id="fun-fact">Loading fun fact...</p>
+            <h2>עובדות מעניינות</h2>
+            <p id="fun-fact">טוען עובדה מעניינת...</p>
         </div>
     </div>
 
     <script>
-        function startGame() {
-            // Redirect to the game page
-            window.location.href = "game.html";
-        }
+function startGame() {
+    // Redirect to the game page
+    window.location.href = "play.html";
 
-        // Array of fun facts related to the CountryCity game
+    // Insert example score rows (replace this with actual scores)
+    var scoreTable = document.getElementById("score-table");
+    var players = ["שחקן 1", "שחקן 2", "שחקן 3"]; // Example player names
+    for (var i = 0; i < players.length; i++) {
+        var row = scoreTable.insertRow(-1);
+        var playerCell = row.insertCell(0);
+        var scoreCell = row.insertCell(1);
+        playerCell.textContent = players[i];
+        scoreCell.textContent = "0"; // Set initial score to 0
+    }
+}
+
+        // מערך של עובדות מעניינות הקשורות למשחק עירים ומדינות
         var funFacts = [
-            "Did you know? The longest recorded game of CountryCity lasted over 5 hours!",
-            "In some versions of the game, players must name a place that starts with the last two letters instead of just the last letter.",
-            "CountryCity is known by different names in different countries, such as 'Cities' or 'Geography'.",
-            "The game can be played with various categories, such as animals, food, or movies, instead of just countries and cities."
+            "הידעת? המשחק הארוך ביותר של ארץ עיר נמשך מעל 5 שעות!",
+            "בגרסאות מסוימות של המשחק, שחקנים חייבים לציין מקום שמתחיל בשתי האותיות האחרונות במקום האחרונה בלבד.",
+            "המשחק ארץ עיר מכונה בשמות שונים במדינות שונות, כמו 'ערים' או 'גאוגרפיה'.",
+            "ניתן לשחק עם קטגוריות שונות, כמו חיות, אוכל, או סרטים, במקום רק ערים ומדינות."
         ];
 
-        // Function to display a random fun fact
+        // פונקציה להצגת עובדה מעניינת אקראית
         function displayFunFact() {
             var randomIndex = Math.floor(Math.random() * funFacts.length);
             document.getElementById("fun-fact").innerText = funFacts[randomIndex];
         }
 
-        // Display a new fun fact every 5 seconds
+        // הצגת עובדה חדשה מעניינת כל 5 שניות
         setInterval(displayFunFact, 5000);
         
-        // Initial fun fact display
+        // הצגת עובדה ראשונית
         displayFunFact();
     </script>
 </body>
