@@ -33,14 +33,13 @@ def check_valid():
     else:
         return jsonify({'valid': False})
 
-
 @app.route('/')
 def home():
-   return render_template('play.html')
+   return render_template('templates/homePage.html')
 
 @app.route('/play')
 def play():
-    return render_template('play.html')
+    return render_template('templates/play.html')
 
 
 if __name__ == "__main__":

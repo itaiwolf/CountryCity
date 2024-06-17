@@ -3,44 +3,17 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #categoriesContainer {
-            display: none; /* Initially hide the container */
-            display: flex; /* Use flexbox for layout */
-            justify-content: center; /* Distribute space evenly around items */
-            align-items: start; /* Align items to the start of the flex container */
-            flex-wrap: wrap; /* Allow items to wrap if needed */
-        }
-        .category {
-            display: flex; /* Make each category a flex container */
-            flex-direction: column; /* Stack label and input vertically */
-            align-items: center; /* Center-align items vertically */
-            margin: 10px; /* Add some margin around each category */
-        }
-        .category input, .category label {
-        width: 120px; /* Initial width, can be adjusted with JavaScript */
-        text-align: center;
-        font-size: 30px;
-        }
-        button {
-            margin-top: 30px; /* Space between button and categories */
-        }
-    </style>
+    <title>××©×—×§ ××¨×¥ ×¢×™×¨</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="StyleSheet.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="landingPageHeading">
-        <h1>àøõ òéø</h1>
+        <h1>××¨×¥ ×¢×™×¨</h1>
     </div>
     <div class="landingPageSubHeading">
-        <h2>äúçìú îùç÷</h2>
-        <button onclick="startActivities()">äâøì àåú!</button>
+        <h2>×”×ª×—×œ×ª ××©×—×§</h2>
+        <button onclick="startActivities()">×”×’×¨×œ ××•×ª!</button>
         <style>
             #timerContainer, #tip {
                 display: none; /* Initially hide the timer */
@@ -48,8 +21,10 @@
         </style>
         <p id="displayLetter"></p>
         <div id="timerContainer">
-            äæîï øõ: <span id="timer">0</span> ùğéåú
+            ×”×–××Ÿ ×¨×¥: <span id="timer">0</span> ×©× ×™×•×ª
         </div>
+    </div>
+
     <script>
         let intervalId = null;
 
@@ -61,32 +36,31 @@
         }
 
         function generateRandomLetter() {
-            const alphabet = "àáâãäåæçèéëìîğñòôö÷øùú";
+            const alphabet = "××‘×’×“×”×•×–×—×˜×™×›×œ×× ×¡×¢×¤×¦×§×¨×©×ª";
             const randomIndex = Math.floor(Math.random() * alphabet.length);
             const randomLetter = alphabet[randomIndex];
             document.getElementById("displayLetter").innerHTML = randomLetter;
         }
 
-
         function startTimer() {
             let time = 0;
             document.getElementById("timer").textContent = time;
 
-        // Clear existing timer to prevent multiple timers running simultaneously
+            // Clear existing timer to prevent multiple timers running simultaneously
             if (intervalId !== null) {
                 clearInterval(intervalId);
             }
 
             intervalId = setInterval(() => {
-            time++;
-            document.getElementById("timer").textContent = time;
+                time++;
+                document.getElementById("timer").textContent = time;
             }, 1000);
         }
     </script>
 
-    <div id="categoriesContainer">
+    <div class="categoriesContainer">
         <div class="category">
-            <label for="country">àøõ</label>
+            <label for="country">××¨×¥</label>
             <input type="text" id="country" name="country">
             <div id="foundCountry" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -96,7 +70,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="city">òéø</label>
+            <label for="city">×¢×™×¨</label>
             <input type="text" id="city" name="city">
             <div id="foundCity" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -106,7 +80,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="animal">çé</label>
+            <label for="animal">×—×™</label>
             <input type="text" id="animal" name="animal">
             <div id="foundAnimal" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -116,7 +90,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">öåîç</label>
+            <label for="plant">×¦×•××—</label>
             <input type="text" id="plant" name="plant">
             <div id="foundPlant" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -126,7 +100,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">ãåîí</label>
+            <label for="object">×“×•××</label>
             <input type="text" id="object" name="object">
             <div id="foundObject" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -136,27 +110,27 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">áï</label>
+            <label for="boyName">×‘×Ÿ</label>
             <input type="text" id="boyName" name="boyName">
-            <div id="foundBoy" style="display: none;">
+            <div id="foundBoyName" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
             </div>
-            <div id="notFoundBoy" style="display: none;">
+            <div id="notFoundBoyName" style="display: none;">
                 <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
             </div>
         </div>
         <div class="category">
-            <label for="plant">áú</label>
+            <label for="girlName">×‘×ª</label>
             <input type="text" id="girlName" name="girlName">
-            <div id="foundGirl" style="display: none;">
+            <div id="foundGirlName" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
             </div>
-            <div id="notFoundGirl" style="display: none;">
+            <div id="notFoundGirlName" style="display: none;">
                 <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
             </div>
         </div>
         <div class="category">
-            <label for="plant">î÷öåò</label>
+            <label for="profession">××§×¦×•×¢</label>
             <input type="text" id="profession" name="profession">
             <div id="foundProfession" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -166,7 +140,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">àéùéåú</label>
+            <label for="celebrity">××™×©×™×•×ª</label>
             <input type="text" id="celebrity" name="celebrity">
             <div id="foundCelebrity" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -178,7 +152,7 @@
     </div>
     <br>
     <div id="tip">
-        ìçõ TAB ëãé ìòáåø îäø áéï äúàéí
+        ×œ×—×¥ TAB ×›×“×™ ×œ×¢×‘×•×¨ ××”×¨ ×‘×™×Ÿ ×”×ª××™×
     </div>
 
     <div>
@@ -187,17 +161,11 @@
     </div>
     
     <script>
-    function startGame() {
-        document.getElementById("categoriesContainer").style.display = "flex"; // Change display to flex to show the container
-    }
-    </script>
-    
-    <script>
-        function checkStartingLetter(){
-
+        function startGame() {
+            document.getElementById("categoriesContainer").style.display = "flex"; // Change display to flex to show the container
         }
     </script>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
     <script>
@@ -225,29 +193,27 @@
             // var trProfession = await translate(profession);
             // var trCelebrity = await translate(celebrity);
 
-            console.log('Country:', country.value, 'Translated Country:', trCountry);
-            console.log('City:', city.value, 'Translated City:', trCity);
-            console.log('Animal:', animal.value, 'Translated Animal:', trAnimal);
-            console.log('Plant:', plant.value, 'Translated Plant:', plant.value);
-            console.log('Object:', object.value, 'Translated Object:', object.value);
-            console.log('Boy Name:', boyName.value, 'Translated Boy Name:', boyName.value);
-            console.log('Girl Name:', girlName.value, 'Translated Girl Name:', girlName.value);
-            console.log('Profession:', profession.value, 'Translated Profession:', profession.value);
-            console.log('Celebrity:', celebrity.value, 'Translated Celebrity:', celebrity.value);
+            console.log('Country:', country, 'Translated Country:', trCountry);
+            console.log('City:', city, 'Translated City:', trCity);
+            console.log('Animal:', animal, 'Translated Animal:', trAnimal);
+            console.log('Plant:', plant, 'Translated Plant:', plant);
+            console.log('Object:', object, 'Translated Object:', object);
+            console.log('Boy Name:', boyName, 'Translated Boy Name:', boyName);
+            console.log('Girl Name:', girlName, 'Translated Girl Name:', girlName);
+            console.log('Profession:', profession, 'Translated Profession:', profession);
+            console.log('Celebrity:', celebrity, 'Translated Celebrity:', celebrity);
 
             trAnimalCapitalFirstLetter = trAnimal.charAt(0).toUpperCase() + trAnimal.slice(1);
 
-
-            const firstCountry = country.value.charAt(0);
-            const firstCity = city.value.charAt(0);
-            const firstAnimal = animal.value.charAt(0);
-            const firstPlant = plant.value.charAt(0);
-            const firstObject = object.value.charAt(0);
-            const firstBoyName = boyName.value.charAt(0);
-            const firstGirlName = girlName.value.charAt(0);
-            const firstProfession = profession.value.charAt(0);
-            const firstCelebrity = celebrity.value.charAt(0);
-
+            const firstCountry = country.charAt(0);
+            const firstCity = city.charAt(0);
+            const firstAnimal = animal.charAt(0);
+            const firstPlant = plant.charAt(0);
+            const firstObject = object.charAt(0);
+            const firstBoyName = boyName.charAt(0);
+            const firstGirlName = girlName.charAt(0);
+            const firstProfession = profession.charAt(0);
+            const firstCelebrity = celebrity.charAt(0);
 
             if (startingLetter === firstCountry && await check_valid("country", "countries", trCountry)) {
                 document.getElementById("foundCountry").style.display = "block";
@@ -302,7 +268,6 @@
             } else {
                 document.getElementById("notFoundCelebrity").style.display = "block";
             }
-            
         }
 
         async function translate(word){
@@ -312,23 +277,21 @@
             encodedParams.set('text', word);
 
             const options = {
-            method: 'POST',
-            url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded',
-                'X-RapidAPI-Key': '5b4b303f2amsh7b658041f443c80p189bd8jsn6a61e188b3f0',
-                'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
-            },
-            data: encodedParams,
+                method: 'POST',
+                url: 'https://google-translate113.p.rapidapi.com/api/v1/translator/text',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded',
+                    'X-RapidAPI-Key': '5b4b303f2amsh7b658041f443c80p189bd8jsn6a61e188b3f0',
+                    'X-RapidAPI-Host': 'google-translate113.p.rapidapi.com'
+                },
+                data: encodedParams,
             };
 
             try {
                 const response = await axios.request(options);
                 console.log(response.data);
                 console.log(response.data.trans);
-                //country.value = response.data.trans; // change the text in the field
-                return translated= response.data.trans;
-                //check_valid(translatedCountry);
+                return translated = response.data.trans;
             } catch (error) {
                 console.error(error);
             }
@@ -339,10 +302,8 @@
                 const response = await axios.get('http://localhost:5000/checkvalid', {
                     params: { collection, field, value } });
                 if (response.data.valid) {
-                    //console.log("true");
                     return true;
                 } else {
-                    //console.log("false");
                     return false;
                 }
             } catch (error) {
@@ -351,10 +312,7 @@
         }
 
         function submitForm() {
-            // Get the selected radio button value
             var radioValue = document.querySelector('input[name="countryCityRadio"]:checked');
-
-            // Check if a radio button is selected
             if (radioValue) {
                 radioValue = radioValue.value;
             } else {
@@ -362,7 +320,6 @@
                 return;
             }
 
-            // Map radio values to corresponding column names
             var columnMap = {
                 'country': 'CountryName',
                 'city': 'CityName',
@@ -378,4 +335,3 @@
     </script>
 </body>
 </html>
-

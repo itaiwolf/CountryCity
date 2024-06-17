@@ -4,100 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>משחק עירים ומדינות</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fcead7; /* רקע דלעת עדין */
-            animation: fadeIn 1s ease; /* אנימציה של התמסרות */
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            animation: slideIn 1s ease; /* אנימציה של החלקה */
-        }
-        @keyframes slideIn {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        h1 {
-            text-align: center;
-            color: #ff6f61; /* צבע אדום-ורוד */
-        }
-        form {
-            max-width: 300px;
-            margin: 20px auto;
-        }
-        input[type="text"], input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ff6f61; /* גבול אדום-ורוד */
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            background-color: #ff6f61; /* רקע אדום-ורוד */
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #ff574f; /* רקע אדום-ורוד כהה בעכבר */
-        }
-        .rules {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #fff8e1; /* רקע צהוב עדין */
-            border: 1px solid #ffbb93; /* גבול כתום עדין */
-            border-radius: 4px;
-        }
-        .start-game-btn {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .start-game-btn button {
-            padding: 10px 20px;
-            background-color: #63cdda; /* רקע תכלת-ירוק עדין */
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            cursor: pointer;
-        }
-        .start-game-btn button:hover {
-            background-color: #52b4b7; /* רקע תכלת-ירוק כהה בעכבר */
-        }
-        .fun-facts {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #f0f8ff; /* רקע כחול עדין */
-            border: 1px solid #add8e6; /* גבול כחול עדין */
-            border-radius: 4px;
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -134,7 +41,7 @@
     <script>
 function startGame() {
     // Redirect to the game page
-    window.location.href = "play.html";
+    window.location.href = "templates/play.html";
 
     // Insert example score rows (replace this with actual scores)
     var scoreTable = document.getElementById("score-table");

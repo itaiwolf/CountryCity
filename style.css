@@ -1,0 +1,217 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fcead7; /* רקע דלעת עדין */
+    animation: fadeIn 1s ease; /* אנימציה של התמסרות */
+    direction: rtl;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: slideIn 1s ease; /* אנימציה של החלקה */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+h1 {
+    text-align: center;
+    color: #ff6f61; /* צבע אדום-ורוד */
+}
+form {
+    max-width: 300px;
+    margin: 20px auto;
+}
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ff6f61; /* גבול אדום-ורוד */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6f61; /* רקע אדום-ורוד */
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background-color: #ff574f; /* רקע אדום-ורוד כהה בעכבר */
+}
+.rules {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff8e1; /* רקע צהוב עדין */
+    border: 1px solid #ffbb93; /* גבול כתום עדין */
+    border-radius: 4px;
+}
+.start-game-btn {
+    text-align: center;
+    margin-top: 20px;
+}
+.start-game-btn button {
+    padding: 10px 20px;
+    background-color: #63cdda; /* רקע תכלת-ירוק עדין */
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+.start-game-btn button:hover {
+    background-color: #52b4b7; /* רקע תכלת-ירוק כהה בעכבר */
+}
+.fun-facts {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f0f8ff; /* רקע כחול עדין */
+    border: 1px solid #add8e6; /* גבול כחול עדין */
+    border-radius: 4px;
+    text-align: center;
+}
+
+.header {
+    border: 1px solid red;
+    padding: 15px;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+[class*="col-"] {
+    float: right;
+    padding: 5px;
+    border: 1px solid;
+}
+
+.col-1 {
+    width: 8.33%;
+}
+
+.col-2 {
+    width: 16.66%;
+}
+
+.col-3 {
+    width: 25%;
+}
+
+.col-4 {
+    width: 33.33%;
+}
+
+.col-5 {
+    width: 41.66%;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-7 {
+    width: 58.33%;
+}
+
+.col-8 {
+    width: 66.66%;
+}
+
+.col-9 {
+    width: 75%;
+}
+
+.col-10 {
+    width: 83.33%;
+}
+
+.col-11 {
+    width: 91.66%;
+}
+
+.col-12 {
+    width: 100%;
+}
+
+
+.landingPageHeading {
+    width: 100%;
+    text-align: center;
+}
+
+.landingPageSubHeading {
+    width: 100%;
+    padding: 20px;
+}
+
+
+.wrapperDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-radio {
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+    .custom-radio input {
+        display: none; /* Hide the default radio button */
+    }
+
+    .custom-radio .radio-text {
+        display: inline-block;
+        border: 1px solid #ccc;
+        background-color: #eee;
+        padding: 15px;
+        font-size: 25px;
+        cursor: pointer;
+        box-shadow: 5px;
+    }
+
+    .custom-radio input:checked + .radio-text {
+        background-color: #2196F3;
+        color: white;
+    }
+
+#searchButton {
+    background: url('https://cdn-icons-png.flaticon.com/512/346/346072.png') no-repeat center center;
+    background-color:aqua;
+    width: 100px; /* Adjust as necessary */
+    height: 100px; /* Adjust as necessary */
+    cursor: pointer;
+    background-size: cover;
+}
+
+.categoriesContainer{
+    display: flex;
+    flex-direction: row;
+}
