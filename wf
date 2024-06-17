@@ -1,0 +1,70 @@
+[33mcommit 3255dcbbf3d7d047ea68767ee93ba222d1a4a8df[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Fri May 31 00:41:35 2024 +0300
+
+    logical check first letter + check existence in DB
+
+[33mcommit 78c4367b61d0be494e3c6f9b475d47d1fd6ad04c[m
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Fri May 17 13:27:17 2024 +0300
+
+    translation API added
+
+[33mcommit 8ed667956af945dee4b92610e09318968dc15fa5[m
+Merge: baf7785 9f9c53a
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Fri May 17 11:11:43 2024 +0300
+
+    Merge branch 'main' of https://github.com/Guychuk210/CountryCity
+    Server side added
+
+[33mcommit baf7785dd092f0a928c694ceb82466ae44a6c2e1[m
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Fri May 17 11:11:25 2024 +0300
+
+    server side added
+
+[33mcommit 9f9c53ae248caed9b9728cc8e357eb34d6556a41[m
+Merge: e796824 48676d5
+Author: Benor Yanev <benor.yanev@post.runi.ac.il>
+Date:   Mon May 6 20:30:57 2024 +0300
+
+    Merge https://github.com/Guychuk210/CountryCity
+
+[33mcommit e796824a4794ac318f22de31b2a9238f1c3aa459[m
+Author: Benor Yanev <benor.yanev@post.runi.ac.il>
+Date:   Mon May 6 20:17:33 2024 +0300
+
+    homePage skech
+
+[33mcommit 48676d55be36900292677e793c9fce3516d92a43[m
+Merge: 07833db 9645ab3
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Fri May 3 18:42:51 2024 +0300
+
+    Merge branch 'main' of https://github.com/Guychuk210/CountryCity
+    added pages.
+
+[33mcommit 07833dbbe87161f82b4a44b9c8c9fbbb5dac0874[m
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Fri May 3 18:42:25 2024 +0300
+
+    play.html added
+
+[33mcommit 9645ab3e15c8fd97759c11fb24c3ec08ffc5f62e[m
+Author: Itai Wolf <itaiwolf8@gmail.com>
+Date:   Fri May 3 18:03:04 2024 +0300
+
+    first commit
+
+[33mcommit 85f9d706ce761ef06c21f4a2bf6ff147818d6321[m
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Sat Apr 13 15:12:17 2024 +0300
+
+    initialization
+
+[33mcommit d997f264d9c52fa97c796d45426c4e5f4e094c59[m
+Author: Guy Levy <guy.levy01@post.runi.ac.il>
+Date:   Sat Apr 13 15:11:27 2024 +0300
+
+    first commit

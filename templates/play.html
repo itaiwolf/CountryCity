@@ -1,4 +1,4 @@
-ο»Ώ<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="he" dir="rtl">
 <head>
@@ -36,11 +36,11 @@
 </head>
 <body>
     <div class="landingPageHeading">
-        <h1>ΧΧ¨Χ¥ ΧΆΧ™Χ¨</h1>
+        <h1>ΰψυ ςιψ</h1>
     </div>
     <div class="landingPageSubHeading">
-        <h2>Χ’Χ’Χ’Χ”ΧªΧ—ΧΧª ΧΧ©Χ—Χ§</h2>
-        <button onclick="startActivities()">Χ”Χ’Χ¨Χ ΧΧ•Χª!</button>
+        <h2>δϊημϊ ξωηχ</h2>
+        <button onclick="startActivities()">δβψμ ΰεϊ!</button>
         <style>
             #timerContainer, #tip {
                 display: none; /* Initially hide the timer */
@@ -48,7 +48,7 @@
         </style>
         <p id="displayLetter"></p>
         <div id="timerContainer">
-            Χ”Χ–ΧΧ Χ¨Χ¥: <span id="timer">0</span> Χ©Χ Χ™Χ•Χª
+            δζξο ψυ: <span id="timer">0</span> ωπιεϊ
         </div>
     <script>
         let intervalId = null;
@@ -61,7 +61,7 @@
         }
 
         function generateRandomLetter() {
-            const alphabet = "ΧΧ‘Χ’Χ“Χ”Χ•Χ–Χ—ΧΧ™Χ›ΧΧΧ Χ΅ΧΆΧ¤Χ¦Χ§Χ¨Χ©Χª";
+            const alphabet = "ΰαβγδεζηθιλμξπρςτφχψωϊ";
             const randomIndex = Math.floor(Math.random() * alphabet.length);
             const randomLetter = alphabet[randomIndex];
             document.getElementById("displayLetter").innerHTML = randomLetter;
@@ -86,7 +86,7 @@
 
     <div id="categoriesContainer">
         <div class="category">
-            <label for="country">ΧΧ¨Χ¥</label>
+            <label for="country">ΰψυ</label>
             <input type="text" id="country" name="country">
             <div id="foundCountry" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -96,7 +96,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="city">ΧΆΧ™Χ¨</label>
+            <label for="city">ςιψ</label>
             <input type="text" id="city" name="city">
             <div id="foundCity" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -106,7 +106,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="animal">Χ—Χ™</label>
+            <label for="animal">ηι</label>
             <input type="text" id="animal" name="animal">
             <div id="foundAnimal" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -116,7 +116,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">Χ¦Χ•ΧΧ—</label>
+            <label for="plant">φεξη</label>
             <input type="text" id="plant" name="plant">
             <div id="foundPlant" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">Χ“Χ•ΧΧ</label>
+            <label for="plant">γεξν</label>
             <input type="text" id="object" name="object">
             <div id="foundObject" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
@@ -136,8 +136,8 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">Χ‘Χ</label>
-            <input type="text" id="boy" name="boy">
+            <label for="plant">αο</label>
+            <input type="text" id="boyName" name="boyName">
             <div id="foundBoy" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
             </div>
@@ -146,8 +146,8 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">Χ‘Χª</label>
-            <input type="text" id="girl" name="girl">
+            <label for="plant">αϊ</label>
+            <input type="text" id="girlName" name="girlName">
             <div id="foundGirl" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
             </div>
@@ -156,29 +156,29 @@
             </div>
         </div>
         <div class="category">
-            <label for="plant">ΧΧ§Χ¦Χ•ΧΆ</label>
-            <input type="text" id="prof" name="prof">
-            <div id="foundProf" style="display: none;">
+            <label for="plant">ξχφες</label>
+            <input type="text" id="profession" name="profession">
+            <div id="foundProfession" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
             </div>
-            <div id="notFoundProf" style="display: none;">
+            <div id="notFoundProfession" style="display: none;">
                 <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
             </div>
         </div>
         <div class="category">
-            <label for="plant">ΧΧ™Χ©Χ™Χ•Χª</label>
-            <input type="text" id="celeb" name="celeb">
-            <div id="foundCeleb" style="display: none;">
+            <label for="plant">ΰιωιεϊ</label>
+            <input type="text" id="celebrity" name="celebrity">
+            <div id="foundCelebrity" style="display: none;">
                 <img src="https://cdn.vectorstock.com/i/1000v/49/99/check-mark-symbol-or-tick-vector-45244999.jpg" style="width: 50px; height: 50px;">
             </div>
-            <div id="notFoundCeleb" style="display: none;">
+            <div id="notFoundCelebrity" style="display: none;">
                 <img src="https://cliply.co/wp-content/uploads/2021/07/372107370_CROSS_MARK_400.png" style="width: 50px; height: 50px;">
             </div>
         </div>
     </div>
     <br>
     <div id="tip">
-        ΧΧ—Χ¥ TAB Χ›Χ“Χ™ ΧΧΆΧ‘Χ•Χ¨ ΧΧ”Χ¨ Χ‘Χ™Χ Χ”ΧªΧΧ™Χ
+        μηυ TAB λγι μςαεψ ξδψ αιο δϊΰιν
     </div>
 
     <div>
@@ -202,42 +202,107 @@
     
     <script>
         async function sendForm(){
-            var country = document.getElementById('country');
-            var city = document.getElementById('city');
-            var animal = document.getElementById('animal');
+            var country = document.getElementById('country').value;
+            var city = document.getElementById('city').value;
+            var animal = document.getElementById('animal').value;
+            var plant = document.getElementById('plant').value;
+            var object = document.getElementById('object').value;
+            var boyName = document.getElementById('boyName').value;
+            var girlName = document.getElementById('girlName').value;
+            var profession = document.getElementById('profession').value;
+            var celebrity = document.getElementById('celebrity').value;
             
-            let startingLetter = document.getElementById("displayLetter").innerHTML
+            let startingLetter = document.getElementById("displayLetter").innerHTML;
             console.log(startingLetter);
 
-            var trCountry = await translate(country.value);
-            var trCity= await translate(city.value);
-            var trAnimal = await translate(animal.value);
+            var trCountry = await translate(country);
+            var trCity = await translate(city);
+            var trAnimal = await translate(animal);
+            // var trPlant = await translate(plant);
+            // var trObject = await translate(object);
+            // var trBoyName = await translate(boyName);
+            // var trGirlName = await translate(girlName);
+            // var trProfession = await translate(profession);
+            // var trCelebrity = await translate(celebrity);
+
+            console.log('Country:', country.value, 'Translated Country:', trCountry);
+            console.log('City:', city.value, 'Translated City:', trCity);
+            console.log('Animal:', animal.value, 'Translated Animal:', trAnimal);
+            console.log('Plant:', plant.value, 'Translated Plant:', plant.value);
+            console.log('Object:', object.value, 'Translated Object:', object.value);
+            console.log('Boy Name:', boyName.value, 'Translated Boy Name:', boyName.value);
+            console.log('Girl Name:', girlName.value, 'Translated Girl Name:', girlName.value);
+            console.log('Profession:', profession.value, 'Translated Profession:', profession.value);
+            console.log('Celebrity:', celebrity.value, 'Translated Celebrity:', celebrity.value);
+
+            trAnimalCapitalFirstLetter = trAnimal.charAt(0).toUpperCase() + trAnimal.slice(1);
+
 
             const firstCountry = country.value.charAt(0);
-            console.log(firstCountry)
             const firstCity = city.value.charAt(0);
             const firstAnimal = animal.value.charAt(0);
+            const firstPlant = plant.value.charAt(0);
+            const firstObject = object.value.charAt(0);
+            const firstBoyName = boyName.value.charAt(0);
+            const firstGirlName = girlName.value.charAt(0);
+            const firstProfession = profession.value.charAt(0);
+            const firstCelebrity = celebrity.value.charAt(0);
 
-            if(startingLetter === firstCountry && await check_valid("country", "countries", trCountry)){
-                console.log("first leeter country good");
-                document.getElementById("foundCountry").style.display = "block"; // Display the v
+
+            if (startingLetter === firstCountry && await check_valid("country", "countries", trCountry)) {
+                document.getElementById("foundCountry").style.display = "block";
+            } else {
+                document.getElementById("notFoundCountry").style.display = "block";
             }
-            else
-                document.getElementById("notFoundCountry").style.display = "block"; // Display the x
+
+            if (startingLetter === firstCity && await check_valid("city", "worldcities", trCity)) {
+                document.getElementById("foundCity").style.display = "block";
+            } else {
+                document.getElementById("notFoundCity").style.display = "block";
+            }
+
+            if (startingLetter === firstAnimal && await check_valid("animal", "animals", trAnimalCapitalFirstLetter)) {
+                document.getElementById("foundAnimal").style.display = "block";
+            } else {
+                document.getElementById("notFoundAnimal").style.display = "block";
+            }
+
+            if (startingLetter === firstPlant && await check_valid("plant", "items", plant)) {
+                document.getElementById("foundPlant").style.display = "block";
+            } else {
+                document.getElementById("notFoundPlant").style.display = "block";
+            }
+
+            if (startingLetter === firstObject && await check_valid("object", "items", object)) {
+                document.getElementById("foundObject").style.display = "block";
+            } else {
+                document.getElementById("notFoundObject").style.display = "block";
+            }
+
+            if (startingLetter === firstBoyName && await check_valid("boyName", "items", boyName)) {
+                document.getElementById("foundBoyName").style.display = "block";
+            } else {
+                document.getElementById("notFoundBoyName").style.display = "block";
+            }
+
+            if (startingLetter === firstGirlName && await check_valid("girlName", "items", girlName)) {
+                document.getElementById("foundGirlName").style.display = "block";
+            } else {
+                document.getElementById("notFoundGirlName").style.display = "block";
+            }
+
+            if (startingLetter === firstProfession && await check_valid("profession", "items", profession)) {
+                document.getElementById("foundProfession").style.display = "block";
+            } else {
+                document.getElementById("notFoundProfession").style.display = "block";
+            }
+
+            if (startingLetter === firstCelebrity && await check_valid("celebrity", "items", celebrity)) {
+                document.getElementById("foundCelebrity").style.display = "block";
+            } else {
+                document.getElementById("notFoundCelebrity").style.display = "block";
+            }
             
-            if(startingLetter === firstCity && await check_valid("city", "citiesInIsrael", trCity)){
-                console.log("first leeter city good")
-                document.getElementById("foundCity").style.display = "block"; // Display the v
-            }
-            else
-                document.getElementById("notFoundCity").style.display = "block"; // Display the x
-
-            if(startingLetter === firstAnimal && await check_valid("animal", "animals", trAnimal)){
-                console.log("first leeter city good")
-                document.getElementById("foundAnimal").style.display = "block"; // Display the v
-            }
-            else
-                document.getElementById("notFoundAnimal").style.display = "block"; // Display the x
         }
 
         async function translate(word){
@@ -309,61 +374,8 @@
                 'profession': 'ProfessionName',
                 'celebrity': 'CelebrityName'
             };
-
-            var columnName = columnMap[radioValue];
-
-            // Get the text input value
-            var textInputValue = document.getElementById('letter').value;
-
-            var isHebrew = /^[\u0590-\u05FF]+$/.test(textInputValue);
-
-            if (!isHebrew) {
-                alert('Please enter a valid Hebrew letter.');
-                return;
-            }
-
-            // Prevent default form submission
-            event.preventDefault();
-
-            // Create an XMLHttpRequest object
-            var xhr = new XMLHttpRequest();
-
-            // Open a connection
-            xhr.open("POST", "processRequest.php", true);
-
-            // Set the request header
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            // Define what happens on successful data submission
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Parse the JSON response
-                    var data = JSON.parse(xhr.responseText);
-
-                    // Get the container where results will be displayed
-                    var resultsContainer = document.getElementById('resultsContainer');
-                    resultsContainer.innerHTML = ''; // Clear previous results
-
-                    // Check if data is not empty
-                    if (data.length > 0) {
-                        // Create and append elements for each item in the response
-                        data.forEach(function (item) {
-                            var element = document.createElement('div');
-                            element.textContent = item[columnName]; // Use the dynamic column name
-                            resultsContainer.appendChild(element);
-                        });
-                    } else {
-                        resultsContainer.innerHTML = 'No results found';
-                    }
-                }
-            };
-
-            // Send the collected data as JSON
-            xhr.send("radioValue=" + radioValue + "&textInputValue=" + textInputValue);
         }
     </script>
-
-
-
 </body>
 </html>
+
