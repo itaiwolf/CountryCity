@@ -35,11 +35,11 @@ def check_valid():
 
 @app.route('/')
 def home():
-   return render_template('templates/homePage.html')
+   return render_template('homePage.html')
 
 @app.route('/play')
 def play():
-    return render_template('templates/play.html')
+    return render_template('play.html')
 
 
 if __name__ == "__main__":

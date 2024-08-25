@@ -69,6 +69,7 @@ input[type="submit"]:hover {
     border: 1px solid #ffbb93; /* גבול כתום עדין */
     border-radius: 4px;
 }
+
 .start-game-btn {
     text-align: center;
     margin-top: 20px;
@@ -84,6 +85,25 @@ input[type="submit"]:hover {
 .start-game-btn button:hover {
     background-color: #52b4b7; /* רקע תכלת-ירוק כהה בעכבר */
 }
+
+.choose-letter-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.choose-letter-button button{
+    padding: 10px 20px;
+    background-color: #63cdda; /* רקע תכלת-ירוק עדין */
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.choose-letter-button button:hover {
+    background-color: #52b4b7; /* רקע תכלת-ירוק כהה בעכבר */
+}
+
 .fun-facts {
     margin-top: 20px;
     padding: 20px;
@@ -161,12 +181,14 @@ input[type="submit"]:hover {
 
 .landingPageHeading {
     width: 100%;
-    text-align: center;
+    align-items: center;
+    text-align: center !important;
 }
 
 .landingPageSubHeading {
     width: 100%;
-    padding: 20px;
+    align-items: center;
+    text-align: center !important;
 }
 
 
@@ -214,4 +236,100 @@ input[type="submit"]:hover {
 .categoriesContainer{
     display: flex;
     flex-direction: row;
+    width: 90%;
+    margin-right: 5%;
 }
+
+.categoriesContainer .category{
+    margin-left: 20px;
+    text-align: center;
+}
+
+.submitForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Adjust as needed */
+}
+
+/* Style the sendButton */
+#sendButton {
+    background: url('https://cdn-icons-png.flaticon.com/512/346/346072.png') no-repeat center;
+    width: 50px;
+    height: 50px;
+    background-size: contain; /* Ensures the entire image is displayed */
+    cursor: pointer;
+    border: none;
+}
+
+/* General container styling for lobby (matches your container styles) */
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+    max-width: 600px;
+    animation: fadeIn 1s ease; /* Adding your fade-in animation */
+}
+
+/* Friends lobby section - matching your soft background theme */
+#friends-lobby {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff8e1; /* Light yellow (already matches your style) */
+    border: 1px solid #ffbb93; /* Light orange border */
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Countdown display - using your primary color */
+#countdown {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #ff6f61; /* Matching your primary button color */
+}
+
+/* Player count section - adjusted to match your soft background and borders */
+#lobby-status {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff; /* Keeping it simple with white background */
+    border: 1px solid #add8e6; /* Light blue border */
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Hidden class to hide elements until needed */
+.hidden {
+    display: none;
+}
+
+/* Game info section for sharing link and code - matching your container styles */
+#game-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow like other containers */
+    text-align: center;
+    animation: fadeIn 1s ease; /* Adding fade-in animation to match overall style */
+}
+
+/* Styling for the link and game code text */
+#game-link, #game-code {
+    font-weight: bold;
+    color: #ff6f61; /* Match primary color scheme */
+    font-size: 1.2rem;
+}
+
+/* Adding margin between the link/code and other content */
+#game-info p {
+    margin: 10px 0;
+}
+
+
+

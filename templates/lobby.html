@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby - ארץ עיר</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Waiting for Players...</h1>
+
+        <!-- Section for friends' game: Sharing link and code -->
+        <div id="friends-lobby" class="hidden">
+            <p>Share this link with your friends:</p>
+            <p id="game-link"></p>
+            <p>Or share this game code: <span id="game-code"></span></p>
+        </div>
+
+        <!-- Section showing player count and lobby status ffff-->
+        <div id="lobby-status">
+            <p>Players in lobby: <span id="player-count">1</span>/10</p>
+            <p>The game will start once 5 players have joined.</p>
+            <p id="countdown" class="hidden">Countdown: <span id="countdown-timer"></span> seconds remaining...</p>
+        </div>
+    </div>
+
+    <script>
+        // Function to get the lobby type (friends or strangers) from the URL
+        function getLobbyType() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('type');  // Returns 'friends' or 'strangers'
+        }
+
+        // Setup the lobby page depending on the lobby type
+        function setupLobbyPage() {
+            const lobbyType = getLobbyType();
+
+            if (lobbyType === 'friends') {
+                // Show the game link and code for friends to share
+                document.getElementById('friends-lobby').classList.remove('hidden');
+
+                // Simulate generating a game link and code (replace with real logic)
+                const gameLink = `https://example.com/lobby/12345`;  // Example link
+                const gameCode = 'ABC123';  // Example game code
+
+                document.getElementById('game-link').textContent = gameLink;
+                document.getElementById('game-code').textContent = gameCode;
+            } else if (lobbyType === 'strangers') {
+                // Strangers lobby: No sharing, start automatic matchmaking or player count
+                startAutoMatchmaking();
+            }
+
+            // Start tracking the number of players in the lobby (mock for now)
+            trackPlayerCount();
+        }
+
+        // Function to simulate tracking the number of players in the lobby
+        function trackPlayerCount() {
+            let playerCount = 1;
+            const playerCountElement = document.getElementById('player-count');
+
+            // Simulate players joining (replace with real backend connection later)
+            const interval = setInterval(() => {
+                playerCount++;
+                playerCountElement.textContent = playerCount;
+
+                if (playerCount >= 5) {
+                    // Start the countdown once 5 players are in the lobby
+                    startCountdown();
+                    clearInterval(interval);
+                }
+
+                if (playerCount === 10) {
+                    clearInterval(interval); // Stop when the lobby is full
+                }
+            }, 1000); // Simulate a player joining every second
+        }
+
+        // Function to start the countdown once 5 players are in the lobby
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            const countdownTimerElement = document.getElementById('countdown-timer');
+            countdownElement.classList.remove('hidden');
+            let countdown = 10;
+
+            const countdownInterval = setInterval(() => {
+                countdownTimerElement.textContent = countdown;
+                countdown--;
+
+                if (countdown < 0) {
+                    clearInterval(countdownInterval);
+                    // Redirect to the game page or start the game here
+                    alert('The game is starting!');
+                    window.location.href = "play.html";
+                }
+            }, 1000); // Countdown every second
+        }
+
+        // Placeholder for automatic matchmaking for strangers
+        function startAutoMatchmaking() {
+            console.log("Auto matchmaking for strangers...");
+            // Implement matchmaking logic here
+        }
+
+        // Initialize the lobby page on load
+        document.addEventListener('DOMContentLoaded', setupLobbyPage);
+    </script>
+</body>
+</html>

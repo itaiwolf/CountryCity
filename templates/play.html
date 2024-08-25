@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>משחק ארץ עיר</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
 </head>
 <body>
     <div class="landingPageHeading">
@@ -13,7 +13,9 @@
     </div>
     <div class="landingPageSubHeading">
         <h2>התחלת משחק</h2>
-        <button onclick="startActivities()">הגרל אות!</button>
+        <div class="choose-letter-button">
+            <button onclick="startActivities()">הגרל אות!</button>
+        </div>
         <style>
             #timerContainer, #tip {
                 display: none; /* Initially hide the timer */
@@ -57,6 +59,7 @@
             }, 1000);
         }
     </script>
+    <Br>
 
     <div class="categoriesContainer">
         <div class="category">
@@ -150,14 +153,12 @@
             </div>
         </div>
     </div>
-    <br>
-    <div id="tip">
-        לחץ TAB כדי לעבור מהר בין התאים
-    </div>
 
-    <div>
-        <input type="button" id="sendButton" style="background: url('https://cdn-icons-png.flaticon.com/512/346/346072.png') no-repeat center; 
-        width: 50px; height: 50px; background-size: contain; cursor: pointer; border: none;" onclick="sendForm()">
+    <br>
+    
+
+    <div class="submitForm">
+        <input type="button" id="sendButton" onclick="sendForm()">
     </div>
     
     <script>
@@ -309,28 +310,6 @@
             } catch (error) {
                 console.error('Error:', error);
             }
-        }
-
-        function submitForm() {
-            var radioValue = document.querySelector('input[name="countryCityRadio"]:checked');
-            if (radioValue) {
-                radioValue = radioValue.value;
-            } else {
-                alert('Please select a category.');
-                return;
-            }
-
-            var columnMap = {
-                'country': 'CountryName',
-                'city': 'CityName',
-                'animal': 'AnimalName',
-                'plant': 'PlantName',
-                'object': 'ObjectName',
-                'boyName': 'BName',
-                'girlName': 'GName',
-                'profession': 'ProfessionName',
-                'celebrity': 'CelebrityName'
-            };
         }
     </script>
 </body>
