@@ -17,11 +17,17 @@
             <p>Or share this game code: <span id="game-code"></span></p>
         </div>
 
-        <!-- Section showing player count and lobby status -->
         <div id="lobby-status">
             <p>Players in lobby: <span id="player-count">1</span>/10</p>
             <p>The game will start once the host presses "Start Game".</p>
         </div>
+        
+        <!-- Section showing player list -->
+        <div id="player-list-container">
+            <h3>Players in the Lobby:</h3>
+            <ul id="player-list"></ul> <!-- This will be populated with player IDs -->
+        </div>
+        
 
         <!-- Host control: Start and Cancel buttons (visible only to the host) -->
         <div id="host-controls" class="hidden">
@@ -70,6 +76,20 @@
             socket.on('updatePlayerCount', (playerCount) => {
                 document.getElementById('player-count').textContent = playerCount;
             });
+
+            // Listen for updates on the player list
+            socket.on('updatePlayerList', (players) => {
+                const playerListElement = document.getElementById('player-list');
+                playerListElement.innerHTML = '';  // Clear the current list
+
+                // Populate the list with player IDs
+                players.forEach(playerId => {
+                    const li = document.createElement('li');
+                    li.textContent = playerId;  // Display the player ID
+                    playerListElement.appendChild(li);
+                });
+            });
+
 
             // Determine if the player is the host
             socket.on('isHost', (isHostPlayer) => {

@@ -37,8 +37,8 @@ io.on('connection', (socket) => {
             socket.emit('isHost', false);  // Non-host players receive false
         }
 
-        // Emit the updated player list and player count to everyone in the lobby
-        io.to(lobbyId).emit('updatePlayerList', lobbies[lobbyId].players);
+        // Emit the updated player list to everyone in the lobby
+        io.to(lobbyId).emit('updatePlayerList', lobbies[lobbyId].players);  // Emit the updated list
         io.to(lobbyId).emit('updatePlayerCount', lobbies[lobbyId].players.length);
 
         console.log(`${socket.id} joined ${lobbyId}, player count: ${lobbies[lobbyId].players.length}`);
@@ -96,7 +96,7 @@ function removePlayer(socketId) {
         } else {
             // Update player count and player list for remaining players in the lobby room
             io.to(lobbyId).emit('updatePlayerCount', lobbies[lobbyId].players.length);
-            io.to(lobbyId).emit('updatePlayerList', lobbies[lobbyId].players);
+            io.to(lobbyId).emit('updatePlayerList', lobbies[lobbyId].players);  // Emit the updated list
             console.log(`Updated player count in ${lobbyId}: ${lobbies[lobbyId].players.length}`);
         }
     }
