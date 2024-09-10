@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start a Game - ארץ עיר</title>
+    <link rel="stylesheet" type="text/css" href="\common.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to ארץ עיר</h1>
+
+        <!-- Create a Game Section -->
+        <button id="create-game-btn" onclick="showCreateGameOptions()">Create a Game</button>
+        <div id="create-game-options" class="hidden">
+            <button onclick="startWithFriends()">Play with Friends</button>
+            <button onclick="startWithAnybody()">Play with Anyone</button>
+        </div>
+
+        <br><br>
+
+        <!-- Join a Game Section -->
+        <button id="join-game-btn" onclick="showJoinGameOptions()">Join a Game</button>
+        <div id="join-game-options" class="hidden">
+            <label for="game-code-input">Enter Game Code:</label>
+            <input type="text" id="game-code-input" placeholder="Enter code here">
+            <button onclick="joinWithCode()">Join</button>
+
+            <br><br>
+            <p id="no-code-msg">Don’t have a game code? <br> Play with random people and make new friends!</p>
+            <button onclick="joinRandom()">Play with Random People</button>
+        </div>
+    </div>
+
+    <script>
+        // Show or hide create game options
+        function showCreateGameOptions() {
+            const createOptions = document.getElementById('create-game-options');
+            const joinOptions = document.getElementById('join-game-options');
+
+            // Show create game options, hide join game options
+            createOptions.classList.toggle('visible');
+            createOptions.classList.toggle('hidden');
+
+            // Ensure join game options are hidden
+            joinOptions.classList.add('hidden');
+            joinOptions.classList.remove('visible');
+        }
+
+        // Show or hide join game options
+        function showJoinGameOptions() {
+            const createOptions = document.getElementById('create-game-options');
+            const joinOptions = document.getElementById('join-game-options');
+
+            // Show join game options, hide create game options
+            joinOptions.classList.toggle('visible');
+            joinOptions.classList.toggle('hidden');
+
+            // Ensure create game options are hidden
+            createOptions.classList.add('hidden');
+            createOptions.classList.remove('visible');
+        }
+
+        // Ensure both options are hidden initially when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('create-game-options').classList.add('hidden');
+            document.getElementById('join-game-options').classList.add('hidden');
+        });
+
+
+        // Start game with friends
+        function startWithFriends() {
+            window.location.href = "lobby.html?type=friends";  // Redirect to the lobby for friends
+        }
+
+        // Start game with random people
+        function startWithAnybody() {
+            window.location.href = "lobby.html?type=strangers";  // Redirect to the lobby for strangers
+        }
+
+        // Join game with code
+        function joinWithCode() {
+            const gameCode = document.getElementById('game-code-input').value;
+            if (gameCode) {
+                window.location.href = `lobby.html?code=${gameCode}`;  // Redirect to the lobby with the entered game code
+            } else {
+                alert("Please enter a game code.");
+            }
+        }
+
+        // Join random game
+        function joinRandom() {
+            window.location.href = "lobby.html?type=strangers";  // Redirect to the lobby for strangers
+        }
+    </script>
+</body>
+</html>

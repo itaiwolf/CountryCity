@@ -4,106 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby - ארץ עיר</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/common.css">
 </head>
 <body>
     <div class="container">
         <h1>Waiting for Players...</h1>
 
-        <!-- Section for friends' game: Sharing link and code -->
-        <div id="friends-lobby" class="hidden">
+        <!-- Section for sharing game link and code -->
+        <div id="friends-lobby">
             <p>Share this link with your friends:</p>
             <p id="game-link"></p>
             <p>Or share this game code: <span id="game-code"></span></p>
         </div>
 
-        <!-- Section showing player count and lobby status ffff-->
+        <!-- Section showing player count and lobby status -->
         <div id="lobby-status">
             <p>Players in lobby: <span id="player-count">1</span>/10</p>
-            <p>The game will start once 5 players have joined.</p>
-            <p id="countdown" class="hidden">Countdown: <span id="countdown-timer"></span> seconds remaining...</p>
+            <p>The game will start once the host presses "Start Game".</p>
         </div>
+
+        <!-- Host control: Start and Cancel buttons (visible only to the host) -->
+        <div id="host-controls" class="hidden">
+            <button id="start-game-btn" onclick="startGame()">Start Game</button>
+            <button id="cancel-game-btn" class="hidden" onclick="cancelGame()">Cancel</button>
+        </div>
+
+        <!-- Countdown -->
+        <div id="countdown">Countdown: <span id="countdown-timer"></span> seconds remaining...</div>
     </div>
 
+    <!-- Include Socket.io client script -->
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-        // Function to get the lobby type (friends or strangers) from the URL
-        function getLobbyType() {
+        const socket = io();  // Connect to Socket.io server
+        let isHost = false;  // Assume the player is not the host by default
+        let countdownInterval = null;  // To store countdown timer
+
+        // Function to get the lobby type or game code from the URL
+        function getLobbyParams() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('type');  // Returns 'friends' or 'strangers'
+            const gameCode = urlParams.get('code');  // Check if there's a game code
+            const lobbyType = urlParams.get('type');  // Check if lobby type is set (friends or strangers)
+            return { gameCode, lobbyType };
         }
 
-        // Setup the lobby page depending on the lobby type
+        // Setup the lobby page depending on the lobby type or game code
         function setupLobbyPage() {
-            const lobbyType = getLobbyType();
+            const { gameCode, lobbyType } = getLobbyParams();
 
-            if (lobbyType === 'friends') {
-                // Show the game link and code for friends to share
+            // Generate a game link and code for both modes
+            const gameLink = `https://example.com/lobby/${gameCode || '12345'}`;  // Example link, should be generated dynamically
+            document.getElementById('game-link').textContent = gameLink;
+            document.getElementById('game-code').textContent = gameCode || 'ABC123';  // Use the game code from the URL if available
+
+            // Handle lobby type (friends or strangers) or joining with a game code
+            if (lobbyType === 'friends' || gameCode) {
                 document.getElementById('friends-lobby').classList.remove('hidden');
-
-                // Simulate generating a game link and code (replace with real logic)
-                const gameLink = `https://example.com/lobby/12345`;  // Example link
-                const gameCode = 'ABC123';  // Example game code
-
-                document.getElementById('game-link').textContent = gameLink;
-                document.getElementById('game-code').textContent = gameCode;
+                socket.emit('joinLobby', { lobbyType: 'friends', gameCode });
             } else if (lobbyType === 'strangers') {
-                // Strangers lobby: No sharing, start automatic matchmaking or player count
-                startAutoMatchmaking();
+                startAutoMatchmaking();  // Automatically start matchmaking for strangers
+                socket.emit('joinLobby', { lobbyType: 'strangers' });
             }
 
-            // Start tracking the number of players in the lobby (mock for now)
-            trackPlayerCount();
+            // Listen for updates on player count
+            socket.on('updatePlayerCount', (playerCount) => {
+                document.getElementById('player-count').textContent = playerCount;
+            });
+
+            // Determine if the player is the host
+            socket.on('isHost', (isHostPlayer) => {
+                if (isHostPlayer) {
+                    isHost = true;
+                    document.getElementById('host-controls').classList.remove('hidden');  // Show host controls
+                }
+            });
+
+            // Countdown logic received from the server
+            socket.on('startCountdown', (countdown) => {
+                document.getElementById('countdown').classList.add('show');
+                startCountdown(5);  // Start the countdown from 5 seconds for all players
+            });
+
+            // Cancel game initiation
+            socket.on('cancelCountdown', () => {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').classList.remove('show');
+                document.getElementById('cancel-game-btn').classList.add('hidden');
+            });
+
+            // Redirect to the game page when the countdown ends
+            socket.on('redirectToGame', () => {
+                window.location.href = 'play.html';
+            });
         }
 
-        // Function to simulate tracking the number of players in the lobby
-        function trackPlayerCount() {
-            let playerCount = 1;
-            const playerCountElement = document.getElementById('player-count');
-
-            // Simulate players joining (replace with real backend connection later)
-            const interval = setInterval(() => {
-                playerCount++;
-                playerCountElement.textContent = playerCount;
-
-                if (playerCount >= 5) {
-                    // Start the countdown once 5 players are in the lobby
-                    startCountdown();
-                    clearInterval(interval);
-                }
-
-                if (playerCount === 10) {
-                    clearInterval(interval); // Stop when the lobby is full
-                }
-            }, 1000); // Simulate a player joining every second
+        // Function to start the game
+        function startGame() {
+            if (isHost) {
+                socket.emit('startGame');  // Emit the startGame event to the server
+                document.getElementById('start-game-btn').classList.add('hidden');
+                document.getElementById('cancel-game-btn').classList.remove('hidden');
+            } else {
+                alert('Only the host can start the game.');
+            }
         }
 
-        // Function to start the countdown once 5 players are in the lobby
-        function startCountdown() {
-            const countdownElement = document.getElementById('countdown');
-            const countdownTimerElement = document.getElementById('countdown-timer');
-            countdownElement.classList.remove('hidden');
-            let countdown = 10;
+        // Function to start the countdown on the client side
+        function startCountdown(countdown = 5) {  // Start from 5 seconds
+            document.getElementById('countdown-timer').textContent = countdown;
 
-            const countdownInterval = setInterval(() => {
-                countdownTimerElement.textContent = countdown;
+            // Clear any previous countdown
+            clearInterval(countdownInterval);
+
+            countdownInterval = setInterval(() => {
                 countdown--;
-
-                if (countdown < 0) {
+                document.getElementById('countdown-timer').textContent = countdown;
+                if (countdown <= 0) {
                     clearInterval(countdownInterval);
-                    // Redirect to the game page or start the game here
-                    alert('The game is starting!');
-                    window.location.href = "play.html";
+                    // Redirect all players to the game page (play.html) after countdown ends
+                    window.location.href = 'play.html';
                 }
-            }, 1000); // Countdown every second
+            }, 1000);
         }
 
-        // Placeholder for automatic matchmaking for strangers
-        function startAutoMatchmaking() {
-            console.log("Auto matchmaking for strangers...");
-            // Implement matchmaking logic here
+        // Function to cancel the game
+        function cancelGame() {
+            if (isHost) {
+                socket.emit('cancelGame');  // Emit the cancelGame event to the server
+                document.getElementById('cancel-game-btn').classList.add('hidden');
+                document.getElementById('start-game-btn').classList.remove('hidden');
+            }
         }
 
-        // Initialize the lobby page on load
         document.addEventListener('DOMContentLoaded', setupLobbyPage);
     </script>
 </body>
