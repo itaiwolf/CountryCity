@@ -32,6 +32,37 @@
         </div>
     </div>
 
+    <!-- Modal for name input -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Your Name</h2>
+            <input type="text" id="playerNameInput" placeholder="Your name" required>
+            <button id="submitNameBtn" disabled>Enter Lobby</button>
+        </div>
+    </div>
+
+    <style>
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            position: relative;
+            margin: auto;
+            padding: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 5px;
+            text-align: center;
+            top: 30%;
+        }
+    </style>
+
     <script>
         // Show or hide create game options
         function showCreateGameOptions() {
@@ -61,28 +92,30 @@
             createOptions.classList.remove('visible');
         }
 
-        // Ensure both options are hidden initially when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('create-game-options').classList.add('hidden');
-            document.getElementById('join-game-options').classList.add('hidden');
-        });
-
+        // Show the name input modal
+        function showNameModal() {
+            const nameModal = document.getElementById('nameModal');
+            nameModal.style.display = 'block';  // Show the modal for name input
+        }
 
         // Start game with friends
         function startWithFriends() {
-            window.location.href = "lobby.html?type=friends";  // Redirect to the lobby for friends
+            localStorage.setItem('lobbyType', 'friends');  // Save lobby type
+            showNameModal();
         }
 
         // Start game with random people
         function startWithAnybody() {
-            window.location.href = "lobby.html?type=strangers";  // Redirect to the lobby for strangers
+            localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
+            showNameModal();
         }
 
         // Join game with code
         function joinWithCode() {
             const gameCode = document.getElementById('game-code-input').value;
             if (gameCode) {
-                window.location.href = `lobby.html?code=${gameCode}`;  // Redirect to the lobby with the entered game code
+                localStorage.setItem('gameCode', gameCode);  // Save the game code
+                showNameModal();
             } else {
                 alert("Please enter a game code.");
             }
@@ -90,8 +123,50 @@
 
         // Join random game
         function joinRandom() {
-            window.location.href = "lobby.html?type=strangers";  // Redirect to the lobby for strangers
+            localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
+            showNameModal();
         }
+
+        // Handle modal functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const nameModal = document.getElementById('nameModal');
+            const submitNameBtn = document.getElementById('submitNameBtn');
+
+            // Enable button only if a valid name is entered
+            document.getElementById('playerNameInput').addEventListener('input', function () {
+                if (this.value.trim()) {
+                    submitNameBtn.disabled = false;
+                } else {
+                    submitNameBtn.disabled = true;
+                }
+            });
+
+            // When the user submits their name
+            submitNameBtn.addEventListener('click', () => {
+                const playerName = document.getElementById('playerNameInput').value.trim();
+                if (playerName) {
+                    localStorage.setItem('playerName', playerName);  // Store player name temporarily
+
+                    // Retrieve lobby type or code from storage
+                    const lobbyType = localStorage.getItem('lobbyType');
+                    const gameCode = localStorage.getItem('gameCode');
+
+                    if (gameCode) {
+                        window.location.href = `lobby.html?code=${gameCode}`;
+                    } else if (lobbyType) {
+                        window.location.href = `lobby.html?type=${lobbyType}`;
+                    }
+                } else {
+                    alert('Please enter your name');
+                }
+            });
+        });
+
+        // Ensure both options are hidden initially when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('create-game-options').classList.add('hidden');
+            document.getElementById('join-game-options').classList.add('hidden');
+        });
     </script>
 </body>
 </html>

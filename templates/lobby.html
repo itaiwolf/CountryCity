@@ -45,7 +45,7 @@
         const socket = io();  // Connect to Socket.io server
         let isHost = false;  // Assume the player is not the host by default
         let countdownInterval = null;  // To store countdown timer
-
+    
         // Function to get the lobby type or game code from the URL
         function getLobbyParams() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -53,44 +53,47 @@
             const lobbyType = urlParams.get('type');  // Check if lobby type is set (friends or strangers)
             return { gameCode, lobbyType };
         }
-
+    
         // Setup the lobby page depending on the lobby type or game code
         function setupLobbyPage() {
             const { gameCode, lobbyType } = getLobbyParams();
-
+    
             // Generate a game link and code for both modes
             const gameLink = `https://example.com/lobby/${gameCode || '12345'}`;  // Example link, should be generated dynamically
             document.getElementById('game-link').textContent = gameLink;
             document.getElementById('game-code').textContent = gameCode || 'ABC123';  // Use the game code from the URL if available
-
+    
             // Handle lobby type (friends or strangers) or joining with a game code
             if (lobbyType === 'friends' || gameCode) {
                 document.getElementById('friends-lobby').classList.remove('hidden');
-                socket.emit('joinLobby', { lobbyType: 'friends', gameCode });
+                // socket.emit('joinLobby', { lobbyType: 'friends', gameCode });
             } else if (lobbyType === 'strangers') {
                 startAutoMatchmaking();  // Automatically start matchmaking for strangers
                 socket.emit('joinLobby', { lobbyType: 'strangers' });
             }
-
+    
             // Listen for updates on player count
             socket.on('updatePlayerCount', (playerCount) => {
                 document.getElementById('player-count').textContent = playerCount;
             });
-
+    
             // Listen for updates on the player list
             socket.on('updatePlayerList', (players) => {
                 const playerListElement = document.getElementById('player-list');
-                playerListElement.innerHTML = '';  // Clear the current list
-
-                // Populate the list with player IDs
-                players.forEach(playerId => {
-                    const li = document.createElement('li');
-                    li.textContent = playerId;  // Display the player ID
-                    playerListElement.appendChild(li);
+                
+                // Clear the current list to avoid duplicates
+                playerListElement.innerHTML = '';
+    
+                // Populate the list with player names
+                players.forEach(playerName => {
+                    if (playerName) {  // Only add if the name is valid (not empty)
+                        const li = document.createElement('li');
+                        li.textContent = playerName;  // Display the player name
+                        playerListElement.appendChild(li);
+                    }
                 });
             });
-
-
+    
             // Determine if the player is the host
             socket.on('isHost', (isHostPlayer) => {
                 if (isHostPlayer) {
@@ -98,26 +101,26 @@
                     document.getElementById('host-controls').classList.remove('hidden');  // Show host controls
                 }
             });
-
+    
             // Countdown logic received from the server
             socket.on('startCountdown', (countdown) => {
                 document.getElementById('countdown').classList.add('show');
                 startCountdown(5);  // Start the countdown from 5 seconds for all players
             });
-
+    
             // Cancel game initiation
             socket.on('cancelCountdown', () => {
                 clearInterval(countdownInterval);
                 document.getElementById('countdown').classList.remove('show');
                 document.getElementById('cancel-game-btn').classList.add('hidden');
             });
-
+    
             // Redirect to the game page when the countdown ends
             socket.on('redirectToGame', () => {
                 window.location.href = 'play.html';
             });
         }
-
+    
         // Function to start the game
         function startGame() {
             if (isHost) {
@@ -128,14 +131,14 @@
                 alert('Only the host can start the game.');
             }
         }
-
+    
         // Function to start the countdown on the client side
         function startCountdown(countdown = 5) {  // Start from 5 seconds
             document.getElementById('countdown-timer').textContent = countdown;
-
+    
             // Clear any previous countdown
             clearInterval(countdownInterval);
-
+    
             countdownInterval = setInterval(() => {
                 countdown--;
                 document.getElementById('countdown-timer').textContent = countdown;
@@ -146,7 +149,7 @@
                 }
             }, 1000);
         }
-
+    
         // Function to cancel the game
         function cancelGame() {
             if (isHost) {
@@ -155,8 +158,24 @@
                 document.getElementById('start-game-btn').classList.remove('hidden');
             }
         }
-
-        document.addEventListener('DOMContentLoaded', setupLobbyPage);
+    
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get player name from localStorage
+            const playerName = localStorage.getItem('playerName');
+    
+            if (playerName) {
+                // Send the playerName to the server when joining the lobby
+                const { gameCode, lobbyType } = getLobbyParams();
+                socket.emit('joinLobby', { lobbyType: lobbyType || 'friends', gameCode: gameCode || null, playerName });
+            } else {
+                // If no player name, redirect back to index
+                window.location.href = '/index.html';
+            }
+    
+            // Now set up the lobby page
+            setupLobbyPage();
+        });
     </script>
+    
 </body>
 </html>

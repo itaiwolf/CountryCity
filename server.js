@@ -18,16 +18,16 @@ io.on('connection', (socket) => {
     console.log('A player connected:', socket.id);
 
     // When a player joins a lobby
-    socket.on('joinLobby', ({ lobbyType }) => {
-        const lobbyId = lobbyType === 'friends' ? 'friendsLobby' : 'anyoneLobby';
+    socket.on('joinLobby', ({ lobbyType, playerName, gameCode }) => {
+        const lobbyId = gameCode ? gameCode : lobbyType === 'friends' ? 'friendsLobby' : 'anyoneLobby';
 
         // If the lobby doesn't exist, create it and assign the player as the host
         if (!lobbies[lobbyId]) {
             lobbies[lobbyId] = { players: [], host: socket.id };
         }
 
-        // Add player to the lobby
-        lobbies[lobbyId].players.push(socket.id);
+        // Add player to the lobby with their name and socket ID
+        lobbies[lobbyId].players.push({ id: socket.id, name: playerName });
         socket.join(lobbyId);  // Make the player join the specific lobby room
 
         // Notify the new player if they are the host
@@ -38,10 +38,11 @@ io.on('connection', (socket) => {
         }
 
         // Emit the updated player list to everyone in the lobby
-        io.to(lobbyId).emit('updatePlayerList', lobbies[lobbyId].players);  // Emit the updated list
+        const playerNames = lobbies[lobbyId].players.map(player => player.name);  // Extract names to display
+        io.to(lobbyId).emit('updatePlayerList', playerNames);  // Send only the names
         io.to(lobbyId).emit('updatePlayerCount', lobbies[lobbyId].players.length);
 
-        console.log(`${socket.id} joined ${lobbyId}, player count: ${lobbies[lobbyId].players.length}`);
+        console.log(`${playerName} (${socket.id}) joined ${lobbyId}, player count: ${lobbies[lobbyId].players.length}`);
     });
 
     // Handle player disconnect
@@ -80,11 +81,11 @@ function removePlayer(socketId) {
     const lobbyId = getLobbyBySocket(socketId);
     if (lobbyId) {
         // Remove the player from the lobby's player list
-        lobbies[lobbyId].players = lobbies[lobbyId].players.filter(id => id !== socketId);
+        lobbies[lobbyId].players = lobbies[lobbyId].players.filter(player => player.id !== socketId);
 
         // If the host leaves, assign a new host
         if (lobbies[lobbyId].host === socketId && lobbies[lobbyId].players.length > 0) {
-            lobbies[lobbyId].host = lobbies[lobbyId].players[0];  // Assign the next player as host
+            lobbies[lobbyId].host = lobbies[lobbyId].players[0].id;  // Assign the next player's socket ID as host
             io.to(lobbies[lobbyId].host).emit('isHost', true);  // Notify the new host
             console.log(`New host for ${lobbyId}: ${lobbies[lobbyId].host}`);
         }
@@ -94,9 +95,10 @@ function removePlayer(socketId) {
             console.log(`Lobby ${lobbyId} is now empty. Deleting lobby.`);
             delete lobbies[lobbyId];
         } else {
-            // Update player count and player list for remaining players in the lobby room
+            // Update player count and player list for remaining players
+            const playerNames = lobbies[lobbyId].players.map(player => player.name);  // Extract names to display
             io.to(lobbyId).emit('updatePlayerCount', lobbies[lobbyId].players.length);
-            io.to(lobbyId).emit('updatePlayerList', lobbies[lobbyId].players);  // Emit the updated list
+            io.to(lobbyId).emit('updatePlayerList', playerNames);  // Send updated list of names
             console.log(`Updated player count in ${lobbyId}: ${lobbies[lobbyId].players.length}`);
         }
     }
@@ -104,7 +106,7 @@ function removePlayer(socketId) {
 
 // Helper function to get the lobby by a player's socket ID
 function getLobbyBySocket(socketId) {
-    return Object.keys(lobbies).find(lobbyId => lobbies[lobbyId].players.includes(socketId));
+    return Object.keys(lobbies).find(lobbyId => lobbies[lobbyId].players.some(player => player.id === socketId));
 }
 
 const PORT = process.env.PORT || 5000;
