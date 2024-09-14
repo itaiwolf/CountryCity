@@ -62,8 +62,58 @@
             top: 30%;
         }
     </style>
-
+    
+    <script src="/socket.io/socket.io.js"></script>
     <script>
+        const socket = io();
+        function startWithFriends() {
+            showNameModal();
+            const submitNameBtn = document.getElementById('submitNameBtn');
+            const playerNameInput = document.getElementById('playerNameInput');
+
+            // Prevent multiple bindings by using 'onclick'
+            submitNameBtn.onclick = function() {
+                const playerName = playerNameInput.value.trim();
+
+                if (playerName) {
+                    localStorage.setItem('playerName', playerName);  // Save the player's name
+
+                    // Emit event to create a new game
+                    socket.emit('createGame', playerName);
+
+                    // Listen for game creation
+                    socket.once('gameCreated', ({ gameCode }) => {
+                        console.log('Game created with code:', gameCode);
+                        // Redirect to the lobby page with the new game code
+                        window.location.href = `lobby.html?code=${gameCode}`;
+                    });
+                }
+            };
+        }
+
+
+        function showNameModal() {
+            const nameModal = document.getElementById('nameModal');
+            const playerNameInput = document.getElementById('playerNameInput');
+            const submitNameBtn = document.getElementById('submitNameBtn');
+
+            nameModal.style.display = 'block';  // Show the modal for name input
+
+            // Check if the input box has a value (autofilled or manually entered)
+            if (playerNameInput.value.trim()) {
+                submitNameBtn.disabled = false;  // Enable the submit button if value exists
+            }
+
+            // Enable button if the user types a name
+            playerNameInput.addEventListener('input', function () {
+                if (this.value.trim()) {
+                    submitNameBtn.disabled = false;
+                } else {
+                    submitNameBtn.disabled = true;
+                }
+            });
+        }
+
         // Show or hide create game options
         function showCreateGameOptions() {
             const createOptions = document.getElementById('create-game-options');
@@ -92,18 +142,6 @@
             createOptions.classList.remove('visible');
         }
 
-        // Show the name input modal
-        function showNameModal() {
-            const nameModal = document.getElementById('nameModal');
-            nameModal.style.display = 'block';  // Show the modal for name input
-        }
-
-        // Start game with friends
-        function startWithFriends() {
-            localStorage.setItem('lobbyType', 'friends');  // Save lobby type
-            showNameModal();
-        }
-
         // Start game with random people
         function startWithAnybody() {
             localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
@@ -129,11 +167,11 @@
 
         // Handle modal functionality
         document.addEventListener('DOMContentLoaded', function () {
-            const nameModal = document.getElementById('nameModal');
             const submitNameBtn = document.getElementById('submitNameBtn');
+            const playerNameInput = document.getElementById('playerNameInput');
 
             // Enable button only if a valid name is entered
-            document.getElementById('playerNameInput').addEventListener('input', function () {
+            playerNameInput.addEventListener('input', function () {
                 if (this.value.trim()) {
                     submitNameBtn.disabled = false;
                 } else {
@@ -141,9 +179,17 @@
                 }
             });
 
+            // Allow submission with the Enter key
+            playerNameInput.addEventListener('keypress', function (event) {
+                if (event.key === 'Enter' && this.value.trim()) {
+                    event.preventDefault();  // Prevent default form submission
+                    submitNameBtn.click();  // Trigger the submit button click
+                }
+            });
+
             // When the user submits their name
             submitNameBtn.addEventListener('click', () => {
-                const playerName = document.getElementById('playerNameInput').value.trim();
+                const playerName = playerNameInput.value.trim();
                 if (playerName) {
                     localStorage.setItem('playerName', playerName);  // Store player name temporarily
 

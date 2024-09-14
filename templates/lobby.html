@@ -25,7 +25,7 @@
         <!-- Section showing player list -->
         <div id="player-list-container">
             <h3>Players in the Lobby:</h3>
-            <ul id="player-list"></ul> <!-- This will be populated with player IDs -->
+            <ul id="player-list"></ul> <!-- This will be populated with player names -->
         </div>
         
 
@@ -46,31 +46,32 @@
         let isHost = false;  // Assume the player is not the host by default
         let countdownInterval = null;  // To store countdown timer
     
-        // Function to get the lobby type or game code from the URL
+        // Function to get the game code from the URL
         function getLobbyParams() {
             const urlParams = new URLSearchParams(window.location.search);
-            const gameCode = urlParams.get('code');  // Check if there's a game code
-            const lobbyType = urlParams.get('type');  // Check if lobby type is set (friends or strangers)
-            return { gameCode, lobbyType };
+            const gameCode = urlParams.get('code');  // Get the game code from the URL
+            return gameCode;
         }
     
-        // Setup the lobby page depending on the lobby type or game code
+        // Setup the lobby page with the correct game code and link
         function setupLobbyPage() {
-            const { gameCode, lobbyType } = getLobbyParams();
+            const gameCode = getLobbyParams();
     
-            // Generate a game link and code for both modes
-            const gameLink = `https://example.com/lobby/${gameCode || '12345'}`;  // Example link, should be generated dynamically
-            document.getElementById('game-link').textContent = gameLink;
-            document.getElementById('game-code').textContent = gameCode || 'ABC123';  // Use the game code from the URL if available
-    
-            // Handle lobby type (friends or strangers) or joining with a game code
-            if (lobbyType === 'friends' || gameCode) {
-                document.getElementById('friends-lobby').classList.remove('hidden');
-                // socket.emit('joinLobby', { lobbyType: 'friends', gameCode });
-            } else if (lobbyType === 'strangers') {
-                startAutoMatchmaking();  // Automatically start matchmaking for strangers
-                socket.emit('joinLobby', { lobbyType: 'strangers' });
+            if (!gameCode) {
+                // If no game code is found, redirect back to the homepage or show an error
+                alert('No game code found. Redirecting to the homepage.');
+                window.location.href = '/index.html';
+                return;
             }
+    
+            // Generate the game link and game code dynamically
+            const gameLink = `https://example.com/lobby/${gameCode}`;  // Update this to your actual domain
+            document.getElementById('game-link').textContent = gameLink;
+            document.getElementById('game-code').textContent = gameCode;  // Display the actual game code
+
+            // Notify the server to join the lobby with the game code
+            const playerName = localStorage.getItem('playerName');
+            socket.emit('joinLobby', { gameCode, playerName });
     
             // Listen for updates on player count
             socket.on('updatePlayerCount', (playerCount) => {
@@ -105,7 +106,7 @@
             // Countdown logic received from the server
             socket.on('startCountdown', (countdown) => {
                 document.getElementById('countdown').classList.add('show');
-                startCountdown(5);  // Start the countdown from 5 seconds for all players
+                startCountdown(countdown);  // Start the countdown from the provided seconds
             });
     
             // Cancel game initiation
@@ -133,7 +134,7 @@
         }
     
         // Function to start the countdown on the client side
-        function startCountdown(countdown = 5) {  // Start from 5 seconds
+        function startCountdown(countdown = 5) {  // Start from the provided countdown
             document.getElementById('countdown-timer').textContent = countdown;
     
             // Clear any previous countdown
@@ -164,16 +165,12 @@
             const playerName = localStorage.getItem('playerName');
     
             if (playerName) {
-                // Send the playerName to the server when joining the lobby
-                const { gameCode, lobbyType } = getLobbyParams();
-                socket.emit('joinLobby', { lobbyType: lobbyType || 'friends', gameCode: gameCode || null, playerName });
+                // Set up the lobby page once the player name is confirmed
+                setupLobbyPage();
             } else {
                 // If no player name, redirect back to index
                 window.location.href = '/index.html';
             }
-    
-            // Now set up the lobby page
-            setupLobbyPage();
         });
     </script>
     

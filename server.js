@@ -13,9 +13,45 @@ app.use(express.static(path.join(__dirname, 'static')));
 // Store lobby data
 let lobbies = {};
 
+// Helper function to generate unique game codes
+function generateGameCode() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();  // Generates a random 6-character code
+}
+
+
 // Handle Socket.io connections
 io.on('connection', (socket) => {
     console.log('A player connected:', socket.id);
+
+    // When a player creates a new game
+    socket.on('createGame', (playerName) => {
+        // Generate a unique game code
+        const gameCode = generateGameCode();
+        console.log(`Generated game code: ${gameCode}`);  // Log the generated game code
+
+        // Initialize a new lobby with this unique game code
+        if (!lobbies[gameCode]) {  // Double-check that the code is indeed unique and not already in use
+            lobbies[gameCode] = { players: [], host: socket.id };
+            console.log(`Created a new lobby with game code: ${gameCode}`);
+        }
+
+        // Add the player who created the game to the lobby
+        lobbies[gameCode].players.push({ id: socket.id, name: playerName });
+        socket.join(gameCode);  // Make the player join the specific lobby room
+
+        // Notify the player (host) that their game was created
+        socket.emit('gameCreated', { gameCode });
+
+        // Emit the updated player list to everyone in the lobby
+        const playerNames = lobbies[gameCode].players.map(player => player.name);
+        io.to(gameCode).emit('updatePlayerList', playerNames);
+        io.to(gameCode).emit('updatePlayerCount', lobbies[gameCode].players.length);
+
+        // Log for debugging
+        console.log(`${playerName} (${socket.id}) created game with code: ${gameCode}`);
+        console.log(`Lobby status: ${JSON.stringify(lobbies[gameCode])}`);  // This will show the current state of the lobby
+    });
+
 
     // When a player joins a lobby
     socket.on('joinLobby', ({ lobbyType, playerName, gameCode }) => {
