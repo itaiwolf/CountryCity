@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="/common.css">
 </head>
 <body>
+    <!-- Modal for name input -->
+    <div id="nameModal" class="modal">
+        <div class="modal-content">
+            <h2>Enter Your Name</h2>
+            <input type="text" id="playerNameInput" placeholder="Your name" required>
+            <button onclick="submitName()">Enter Lobby</button>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Waiting for Players...</h1>
 
@@ -44,7 +53,37 @@
         const socket = io();  // Connect to Socket.io server
         let isHost = false;  // Assume the player is not the host by default
         let countdownInterval = null;  // To store countdown timer
-    
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            showNameModal();  // Show the name modal as soon as the page loads
+        });
+
+        function showNameModal() {
+            const modal = document.getElementById('nameModal');
+            modal.style.display = 'block'; // Display the modal
+        }
+
+        function submitName() {
+            const playerNameInput = document.getElementById('playerNameInput');
+            const playerName = playerNameInput.value.trim();
+            if (playerName) {
+                localStorage.setItem('playerName', playerName);  // Store the player's name
+                const modal = document.getElementById('nameModal');
+                modal.style.display = 'none'; // Hide the modal once the name is submitted
+
+                socket.emit('joinLobby', { playerName, gameCode: getLobbyParams() });
+                joinLobby(playerName);  // Proceed to join the lobby
+            } else {
+                alert('Please enter a name.'); // Alert if no name is entered
+            }
+        }
+
+        function joinLobby(playerName) {
+            // Emit event to join the lobby, or perform AJAX call as needed
+            console.log('Joining lobby with name:', playerName);
+            // Additional Socket.io or AJAX code to actually join the lobby goes here
+        }
+
         function getLobbyParams() {
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('code');
@@ -71,6 +110,7 @@
                 }, 5000);  // Reset text after 5 seconds
             }).catch(err => console.error('Failed to copy:', err));
         }
+
         function setupLobbyPage() {
             const gameCode = getLobbyParams();
     
@@ -80,9 +120,6 @@
                 return;
             }
 
-            const playerName = localStorage.getItem('playerName');
-            socket.emit('joinLobby', { gameCode, playerName });
-            
              // Listen for updates on player count
             socket.on('updatePlayerCount', (playerCount) => {
                 const playerCountElement = document.getElementById('player-count');
@@ -177,6 +214,14 @@
                 window.location.href = '/index.html';
             }
         });
+
+        document.getElementById('playerNameInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent the default action to avoid form submission or any other unwanted behavior
+                submitName(); // Directly call the submitName function when Enter is pressed
+            }
+        });
+
 
     </script>
     

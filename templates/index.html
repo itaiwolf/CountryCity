@@ -32,85 +32,19 @@
         </div>
     </div>
 
-    <!-- Modal for name input -->
-    <div id="nameModal" class="modal">
-        <div class="modal-content">
-            <h2>Enter Your Name</h2>
-            <input type="text" id="playerNameInput" placeholder="Your name" required>
-            <button id="submitNameBtn" disabled>Enter Lobby</button>
-        </div>
-    </div>
-
-    <style>
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-content {
-            position: relative;
-            margin: auto;
-            padding: 20px;
-            width: 300px;
-            background-color: white;
-            border-radius: 5px;
-            text-align: center;
-            top: 30%;
-        }
-    </style>
-    
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+        
         function startWithFriends() {
-            showNameModal();
-            const submitNameBtn = document.getElementById('submitNameBtn');
-            const playerNameInput = document.getElementById('playerNameInput');
+            // Emit an event to create a new game
+            socket.emit('createGame');
 
-            // Prevent multiple bindings by using 'onclick'
-            submitNameBtn.onclick = function() {
-                const playerName = playerNameInput.value.trim();
-
-                if (playerName) {
-                    localStorage.setItem('playerName', playerName);  // Save the player's name
-
-                    // Emit event to create a new game
-                    socket.emit('createGame', playerName);
-
-                    // Listen for game creation
-                    socket.once('gameCreated', ({ gameCode }) => {
-                        console.log('Game created with code:', gameCode);
-                        // Redirect to the lobby page with the new game code
-                        window.location.href = `lobby.html?code=${gameCode}`;
-                    });
-                }
-            };
-        }
-
-
-        function showNameModal() {
-            const nameModal = document.getElementById('nameModal');
-            const playerNameInput = document.getElementById('playerNameInput');
-            const submitNameBtn = document.getElementById('submitNameBtn');
-
-            nameModal.style.display = 'block';  // Show the modal for name input
-
-            // Check if the input box has a value (autofilled or manually entered)
-            if (playerNameInput.value.trim()) {
-                submitNameBtn.disabled = false;  // Enable the submit button if value exists
-            }
-
-            // Enable button if the user types a name
-            playerNameInput.addEventListener('input', function () {
-                if (this.value.trim()) {
-                    submitNameBtn.disabled = false;
-                } else {
-                    submitNameBtn.disabled = true;
-                }
+            // Listen for game creation to get the generated game code
+            socket.once('gameCreated', ({ gameCode }) => {
+                console.log('Game created with code:', gameCode);
+                // Redirect to the lobby page with the new game code
+                window.location.href = `lobby.html?code=${gameCode}`;
             });
         }
 
@@ -150,14 +84,16 @@
 
         // Join game with code
         function joinWithCode() {
-            const gameCode = document.getElementById('game-code-input').value;
+            const gameCode = document.getElementById('game-code-input').value.trim(); // Ensure to trim whitespace
             if (gameCode) {
                 localStorage.setItem('gameCode', gameCode);  // Save the game code
-                showNameModal();
+                // Redirect to the lobby with the game code
+                window.location.href = `lobby.html?code=${gameCode}`;
             } else {
-                alert("Please enter a game code.");
+                alert("Please enter a game code."); // Alert if no code is entered
             }
         }
+
 
         // Join random game
         function joinRandom() {
