@@ -23,6 +23,17 @@ function generateGameCode() {
 io.on('connection', (socket) => {
     console.log('A player connected:', socket.id);
 
+    // When a player tries to join a game with a code, check if the lobby exists
+    socket.on('checkGameCode', (gameCode) => {
+        if (lobbies[gameCode]) {
+            // If the lobby exists, send back a confirmation
+            socket.emit('gameCodeStatus', { valid: true, code: gameCode });
+        } else {
+            // If the lobby doesn't exist, inform the client
+            socket.emit('gameCodeStatus', { valid: false });
+        }
+    });
+
     // When a player creates a new game
     socket.on('createGame', (playerName) => {
         // Generate a unique game code

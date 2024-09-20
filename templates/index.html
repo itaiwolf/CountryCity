@@ -24,7 +24,9 @@
         <div id="join-game-options" class="hidden">
             <label for="game-code-input">Enter Game Code:</label>
             <input type="text" id="game-code-input" placeholder="Enter code here">
+            <p id="error-message" class="error hidden">Please enter a valid code.</p>
             <button onclick="joinWithCode()">Join</button>
+            
 
             <br><br>
             <p id="no-code-msg">Don’t have a game code? <br> Play with random people and make new friends!</p>
@@ -48,19 +50,19 @@
             });
         }
 
-        // Show or hide create game options
         function showCreateGameOptions() {
             const createOptions = document.getElementById('create-game-options');
             const joinOptions = document.getElementById('join-game-options');
 
-            // Show create game options, hide join game options
-            createOptions.classList.toggle('visible');
-            createOptions.classList.toggle('hidden');
+            // Ensure the "create game" section is visible
+            createOptions.classList.add('visible');
+            createOptions.classList.remove('hidden');
 
-            // Ensure join game options are hidden
+            // Ensure the "join game" section is hidden
             joinOptions.classList.add('hidden');
             joinOptions.classList.remove('visible');
         }
+
 
         // Show or hide join game options
         function showJoinGameOptions() {
@@ -85,13 +87,39 @@
         // Join game with code
         function joinWithCode() {
             const gameCode = document.getElementById('game-code-input').value.trim(); // Ensure to trim whitespace
-            if (gameCode) {
-                localStorage.setItem('gameCode', gameCode);  // Save the game code
-                // Redirect to the lobby with the game code
-                window.location.href = `lobby.html?code=${gameCode}`;
-            } else {
-                alert("Please enter a game code."); // Alert if no code is entered
+            const errorMessage = document.getElementById('error-message');  // Get the error message element
+
+            // Clear previous error message
+            // errorMessage.classList.remove('visible');
+
+            if (!gameCode) {
+                // Show error if input is empty
+                errorMessage.classList.remove('hidden');
+                errorMessage.classList.add('visible');  // Make the error message visible with a smooth transition
+                return;
             }
+
+            // Emit event to the server to check if the game code exists
+            socket.emit('checkGameCode', gameCode);
+
+            // Listen for the server's response on whether the lobby exists
+            socket.once('gameCodeStatus', ({ valid, code }) => {
+                if (valid) {
+                    // Redirect to the lobby if the code is valid
+                    window.location.href = `lobby.html?code=${code}`;
+                } else {
+                    // Show error if the code is invalid
+                    errorMessage.classList.remove('hidden');  // Ensure the message is not hidden
+                    errorMessage.classList.add('visible');  // Make the error message visible with a smooth transition
+                }
+            });
+        }
+
+
+        function displayErrorMessage(message) {
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = message;
+            errorMessage.classList.add('show');  // Show the message smoothly
         }
 
 

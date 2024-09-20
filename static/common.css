@@ -163,6 +163,23 @@ p {
     text-align: center;
 }
 
+/* Error message styles */
+.error {
+    color: red;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;  /* Smooth transition */
+    margin-top: 5px;
+    font-size: 0.9em;
+    visibility: hidden;  /* Keep it hidden when opacity is 0 */
+}
+
+.error.visible {
+    opacity: 1;  /* Fully visible when the 'visible' class is added */
+    visibility: visible;  /* Make it visible when opacity is 1 */
+}
+
+
+
 
 /* Responsive Design - Mobile */
 @media (max-width: 600px) {
