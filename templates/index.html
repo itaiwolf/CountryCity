@@ -70,8 +70,8 @@
             const joinOptions = document.getElementById('join-game-options');
 
             // Show join game options, hide create game options
-            joinOptions.classList.toggle('visible');
-            joinOptions.classList.toggle('hidden');
+            joinOptions.classList.add('visible');
+            joinOptions.classList.remove('hidden');
 
             // Ensure create game options are hidden
             createOptions.classList.add('hidden');
@@ -81,7 +81,7 @@
         // Start game with random people
         function startWithAnybody() {
             localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
-            showNameModal();
+            // showNameModal();
         }
 
         // Join game with code
@@ -126,7 +126,7 @@
         // Join random game
         function joinRandom() {
             localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
-            showNameModal();
+            // showNameModal();
         }
 
         // Handle modal functionality

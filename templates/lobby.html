@@ -15,10 +15,10 @@
             <button onclick="submitName()">Enter Lobby</button>
         </div>
     </div>
-
+    
     <div class="container">
         <h1>Waiting for Players...</h1>
-
+    
         <!-- Section for sharing game link and code -->
         <div id="friends-lobby">
             <p>Share this link or game code with your friends:</p>
@@ -26,6 +26,20 @@
             <button id="copyCodeButton" onclick="copyCode()">Copy Code</button>
         </div>
 
+        <div id="category-selection">
+            <h3>Select Categories for This Game</h3>
+    
+            <!-- Random Categories Button -->
+            <button id="classic-categories-btn">Classic Categories</button>
+            <button id="random-categories-btn">Random Categories</button>
+    
+            <!-- Category Grid -->
+            <div id="category-grid" class="grid"></div>
+    
+            <!-- Category Counter -->
+            <p id="category-counter">0/9 categories selected</p>
+        </div>
+    
         <div id="lobby-status">
             <p>Players in lobby: <span id="player-count">1</span>/10</p>
             <p>The game will start once the host presses "Start Game".</p>
@@ -36,16 +50,19 @@
             <h3>Players in the Lobby:</h3>
             <ul id="player-list"></ul> <!-- This will be populated with player names -->
         </div>
-        
+    
+            
         <!-- Host control: Start and Cancel buttons (visible only to the host) -->
         <div id="host-controls" class="hidden">
             <button id="start-game-btn" onclick="startGame()">Start Game</button>
-            <button id="cancel-game-btn" class="hidden" onclick="cancelGame()">Cancel</button>
+            <button id="cancel-game-btn" class="hidden" onclick="cancelGame()">Cancel</button>  
         </div>
 
+        <div id="error-message" class="error">Please pick at least 9 categories.</div>
         <!-- Countdown -->
         <div id="countdown">Countdown: <span id="countdown-timer"></span> seconds remaining...</div>
     </div>
+    
 
     <!-- Include Socket.io client script -->
     <script src="/socket.io/socket.io.js"></script>
@@ -53,10 +70,120 @@
         const socket = io();  // Connect to Socket.io server
         let isHost = false;  // Assume the player is not the host by default
         let countdownInterval = null;  // To store countdown timer
+        let selectedCategories = [];
         
         document.addEventListener('DOMContentLoaded', function () {
             showNameModal();  // Show the name modal as soon as the page loads
         });
+
+        // JavaScript for managing the category grid and selection
+        document.addEventListener('DOMContentLoaded', () => {
+            const categories = [
+                'Country', 'City', 'Animal', 'Plant', 'Object', 'Boy Name', 'Girl Name',
+                'Profession', 'Celebrity', '4 Letter Words', 'Movies', 'Books',
+                'Something Orange', 'Something Round', 'Body Parts'
+            ];
+
+            const minCategories = 9;
+
+            const categoryGrid = document.getElementById('category-grid');
+            const categoryCounter = document.getElementById('category-counter');
+            const startGameBtn = document.getElementById('start-game-btn');
+            const classicCategoriesBtn = document.getElementById('classic-categories-btn');
+            const randomCategoriesBtn = document.getElementById('random-categories-btn');
+
+            // Create category boxes in the grid
+            categories.forEach((category) => {
+                const categoryBox = document.createElement('div');
+                categoryBox.classList.add('category-box', 'unselected');
+                categoryBox.textContent = category;
+                categoryBox.setAttribute('data-category', category);
+
+                // Click event for selecting/deselecting categories
+                categoryBox.addEventListener('click', () => toggleCategorySelection(categoryBox, category));
+
+                // Append to grid
+                categoryGrid.appendChild(categoryBox);
+            });
+            
+            // Preselect the first 9 classic categories on page load (Country to Celebrity)
+            selectClassicCategories();
+
+            // Function to select the first 9 "classic" categories (from Country to Celebrity)
+            function selectClassicCategories() {
+                resetAllCategories();
+
+                // Select the first 9 categories (Country to Celebrity)
+                const classicCategories = categories.slice(0, minCategories);
+
+                classicCategories.forEach(category => {
+                    const box = document.querySelector(`[data-category="${category}"]`);
+                    selectedCategories.push(category);
+                    box.classList.add('selected');
+                    box.classList.remove('unselected');
+                });
+
+                updateCounter();
+            }
+
+            // Function to toggle category selection
+            function toggleCategorySelection(box, category) {
+                if (selectedCategories.includes(category)) {
+                    selectedCategories = selectedCategories.filter(cat => cat !== category);
+                    box.classList.remove('selected');
+                    box.classList.add('unselected');
+                } else {
+                    selectedCategories.push(category);
+                    box.classList.add('selected');
+                    box.classList.remove('unselected');
+                }
+                
+                console.log("Updated selected categories:", selectedCategories);  // Debugging: Log the updated array
+                updateCounter();
+            }
+
+            // Function to update category counter and button status
+            function updateCounter() {
+                categoryCounter.textContent = `${selectedCategories.length}/${minCategories} categories selected`;
+            }
+
+            // Function to handle random category selection
+            randomCategoriesBtn.addEventListener('click', () => {
+                resetAllCategories();  // Ensure categories are reset before selecting new ones
+
+                // Create a copy of the categories array for random selection
+                const shuffledCategories = [...categories].sort(() => 0.5 - Math.random()).slice(0, minCategories);
+
+                shuffledCategories.forEach(category => {
+                    const box = document.querySelector(`[data-category="${category}"]`);
+                    selectedCategories.push(category);
+                    box.classList.add('selected');
+                    box.classList.remove('unselected');
+                });
+
+                updateCounter();
+            });
+
+            // Click event for "Classic Categories" button
+            classicCategoriesBtn.addEventListener('click', () => {
+                resetAllCategories();  // Ensure categories are reset before selecting new ones
+
+                selectClassicCategories(); // Preselect the first 9 categories (Country to Celebrity)
+            });
+
+
+            // Function to reset all categories to unselected
+            function resetAllCategories() {
+                selectedCategories = [];
+                const allBoxes = document.querySelectorAll('.category-box');
+                allBoxes.forEach(box => {
+                    box.classList.remove('selected');
+                    box.classList.add('unselected');
+                });
+                updateCounter();
+            }
+        });
+
 
         function showNameModal() {
             const modal = document.getElementById('nameModal');
@@ -165,13 +292,34 @@
         }
 
         function startGame() {
-            if (isHost) {
-                socket.emit('startGame');
-                document.getElementById('start-game-btn').classList.add('hidden');
-                document.getElementById('cancel-game-btn').classList.remove('hidden');
-            } else {
-                alert('Only the host can start the game.');
+            const errorMessage = document.getElementById('error-message');
+            const countdown = document.getElementById('countdown'); 
+            console.log("Selected Categories:", selectedCategories);  // Log the selected categories
+            console.log("Number of selected categories:", selectedCategories.length);  // Log the count
+
+
+            // Check if there are fewer than 9 categories selected
+            if (selectedCategories.length < 9) {
+                // Display the error message 
+                errorMessage.classList.add('show'); 
+                countdown.classList.remove('show'); 
+
+                 // Debugging: Check if the error message is being displayed
+                console.log("Error: Not enough categories selected.");
+
+                // Set a timeout to hide the message after 2 seconds
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');  // Hide the message after 2 seconds
+                }, 2000);
+
+                return;  // Prevent the game from starting
             }
+
+            // If there are enough categories, start the game
+            console.log('Starting the game, enough categories selected.');
+            socket.emit('startGame');
+            document.getElementById('start-game-btn').classList.add('hidden');
+            document.getElementById('cancel-game-btn').classList.remove('hidden');
         }
 
     
