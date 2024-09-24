@@ -35,6 +35,4 @@ Fork this repository.
 Create a new feature branch.
 Make your changes.
 Open a Pull Request.
-# License
-This project is licensed under the MIT License. See the LICENSE file for more details.
 
