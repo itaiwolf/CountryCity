@@ -1,5 +1,5 @@
-# Scattergories Game - ארץ עיר
-ארץ עיר is a fast-paced, multiplayer game inspired by the popular party game Scattergories. Compete with others in real-time to come up with unique words for fun categories, all starting with the same random letter. Perfect for a quick and competitive round with friends or strangers!
+# Scattergories Game - Country City
+Country city is a fast-paced, multiplayer game inspired by the popular party game Scattergories. Compete with others in real-time to come up with unique words for fun categories, all starting with the same random letter. Perfect for a quick and competitive round with friends or strangers!
 
 # Features
 Multiplayer Mode: Create or join a game, and compete in real-time with other players.
