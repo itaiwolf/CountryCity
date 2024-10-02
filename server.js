@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 // Store lobby data
 let lobbies = {};
 
+
 // Helper function to generate unique game codes
 function generateGameCode() {
     return Math.random().toString(36).substring(2, 8).toUpperCase();  // Generates a random 6-character code
@@ -39,15 +40,26 @@ io.on('connection', (socket) => {
         // Generate a unique game code
         const gameCode = generateGameCode();
         console.log(`Generated game code: ${gameCode}`);  // Log the generated game code
+        
+        const classicCategories = [
+            'Country', 'City', 'Animal', 'Plant', 'Object', 'Boy Name', 'Girl Name',
+            'Profession', 'Celebrity'
+        ];
 
         // Initialize a new lobby with this unique game code
         if (!lobbies[gameCode]) {  // Double-check that the code is indeed unique and not already in use
-            lobbies[gameCode] = { players: [], host: socket.id };
+            lobbies[gameCode] = { 
+                players: [], 
+                host: socket.id, 
+                selectedCategories: classicCategories.slice()
+            };
             console.log(`Created a new lobby with game code: ${gameCode}`);
+            console.log(`Lobby initialization: ${JSON.stringify(lobbies[gameCode])}`);  // Log the lobby immediately after initialization
+
         }
 
         // Add the player who created the game to the lobby
-        lobbies[gameCode].players.push({ id: socket.id, name: playerName });
+        lobbies[gameCode].players.push({ id: socket.id, name: playerName});
         socket.join(gameCode);  // Make the player join the specific lobby room
 
         // Notify the player (host) that their game was created
@@ -57,6 +69,8 @@ io.on('connection', (socket) => {
         const playerNames = lobbies[gameCode].players.map(player => player.name);
         io.to(gameCode).emit('updatePlayerList', playerNames);
         io.to(gameCode).emit('updatePlayerCount', lobbies[gameCode].players.length);
+        console.log('Sending selected categories:', lobbies[gameCode].selectedCategories);
+        io.to(gameCode).emit('updateCategories', lobbies[gameCode].selectedCategories);
 
         // Log for debugging
         console.log(`${playerName} (${socket.id}) created game with code: ${gameCode}`);
@@ -70,7 +84,7 @@ io.on('connection', (socket) => {
 
         // If the lobby doesn't exist, create it and assign the player as the host
         if (!lobbies[lobbyId]) {
-            lobbies[lobbyId] = { players: [], host: socket.id };
+            lobbies[lobbyId] = { players: [], host: socket.id, selectedCategories: []};
         }
 
         // Add player to the lobby with their name and socket ID
@@ -86,8 +100,10 @@ io.on('connection', (socket) => {
 
         // Emit the updated player list to everyone in the lobby
         const playerNames = lobbies[lobbyId].players.map(player => player.name);  // Extract names to display
+
         io.to(lobbyId).emit('updatePlayerList', playerNames);  // Send only the names
         io.to(lobbyId).emit('updatePlayerCount', lobbies[lobbyId].players.length);
+        socket.emit('updateCategories', lobbies[lobbyId].selectedCategories);  // Send current categories to the new player
 
         console.log(`${playerName} (${socket.id}) joined ${lobbyId}, player count: ${lobbies[lobbyId].players.length}`);
     });
@@ -120,6 +136,15 @@ io.on('connection', (socket) => {
     socket.on('endCountdown', () => {
         const lobbyId = getLobbyBySocket(socket.id);
         io.to(lobbyId).emit('redirectToGame');  // Redirect all players to the game page
+    });
+
+    // Handle category selection changes from the host
+    socket.on('categorySelectionChanged', (categories) => {
+        const lobbyId = getLobbyBySocket(socket.id);  // Get the lobby associated with this socket ID
+        if (lobbyId) {
+            lobbies[lobbyId].selectedCategories = categories;  // Update the selected categories in the lobby
+            io.to(lobbyId).emit('updateCategories', categories);  // Emit the new categories to all players in the lobby
+        }
     });
 });
 

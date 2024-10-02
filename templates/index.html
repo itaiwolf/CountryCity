@@ -40,6 +40,7 @@
         
         function startWithFriends() {
             // Emit an event to create a new game
+            console.log("creat game emitted");
             socket.emit('createGame');
 
             // Listen for game creation to get the generated game code
@@ -128,49 +129,6 @@
             localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
             // showNameModal();
         }
-
-        // Handle modal functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const submitNameBtn = document.getElementById('submitNameBtn');
-            const playerNameInput = document.getElementById('playerNameInput');
-
-            // Enable button only if a valid name is entered
-            playerNameInput.addEventListener('input', function () {
-                if (this.value.trim()) {
-                    submitNameBtn.disabled = false;
-                } else {
-                    submitNameBtn.disabled = true;
-                }
-            });
-
-            // Allow submission with the Enter key
-            playerNameInput.addEventListener('keypress', function (event) {
-                if (event.key === 'Enter' && this.value.trim()) {
-                    event.preventDefault();  // Prevent default form submission
-                    submitNameBtn.click();  // Trigger the submit button click
-                }
-            });
-
-            // When the user submits their name
-            submitNameBtn.addEventListener('click', () => {
-                const playerName = playerNameInput.value.trim();
-                if (playerName) {
-                    localStorage.setItem('playerName', playerName);  // Store player name temporarily
-
-                    // Retrieve lobby type or code from storage
-                    const lobbyType = localStorage.getItem('lobbyType');
-                    const gameCode = localStorage.getItem('gameCode');
-
-                    if (gameCode) {
-                        window.location.href = `lobby.html?code=${gameCode}`;
-                    } else if (lobbyType) {
-                        window.location.href = `lobby.html?type=${lobbyType}`;
-                    }
-                } else {
-                    alert('Please enter your name');
-                }
-            });
-        });
 
         // Ensure both options are hidden initially when the page loads
         document.addEventListener('DOMContentLoaded', function () {

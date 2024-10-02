@@ -65,7 +65,7 @@ p {
 }
 
 /* Center the Start Game and Cancel buttons */
-#host-controls {
+#start-game-host-controls #categories-host-controls{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -81,7 +81,7 @@ p {
 }
 
 /* Button styling */
-#host-controls button {
+#start-game-host-controls #categories-host-controls button {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
@@ -93,7 +93,7 @@ p {
 }
 
 /* Hover effect for buttons */
-#host-controls button:hover {
+#start-game-host-controls #categories-host-controls button:hover {
     background-color: #0056b3;
 }
 

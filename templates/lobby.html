@@ -27,11 +27,11 @@
         </div>
 
         <div id="category-selection">
-            <h3>Select Categories for This Game</h3>
-    
-            <!-- Random Categories Button -->
-            <button id="classic-categories-btn">Classic Categories</button>
-            <button id="random-categories-btn">Random Categories</button>
+            <div id="categories-host-controls" class="hidden">
+                <h3>Select Categories for This Game</h3>
+                <button id="classic-categories-btn">Classic Categories</button>
+                <button id="random-categories-btn">Random Categories</button>
+            </div>
     
             <!-- Category Grid -->
             <div id="category-grid" class="grid"></div>
@@ -53,7 +53,7 @@
     
             
         <!-- Host control: Start and Cancel buttons (visible only to the host) -->
-        <div id="host-controls" class="hidden">
+        <div id="start-game-host-controls" class="hidden">
             <button id="start-game-btn" onclick="startGame()">Start Game</button>
             <button id="cancel-game-btn" class="hidden" onclick="cancelGame()">Cancel</button>  
         </div>
@@ -71,13 +71,13 @@
         let isHost = false;  // Assume the player is not the host by default
         let countdownInterval = null;  // To store countdown timer
         let selectedCategories = [];
+        let categoryCounter;
         
-        document.addEventListener('DOMContentLoaded', function () {
-            showNameModal();  // Show the name modal as soon as the page loads
-        });
-
         // JavaScript for managing the category grid and selection
         document.addEventListener('DOMContentLoaded', () => {
+            categoryCounter = document.getElementById('category-counter');
+            showNameModal();
+
             const categories = [
                 'Country', 'City', 'Animal', 'Plant', 'Object', 'Boy Name', 'Girl Name',
                 'Profession', 'Celebrity', '4 Letter Words', 'Movies', 'Books',
@@ -87,7 +87,7 @@
             const minCategories = 9;
 
             const categoryGrid = document.getElementById('category-grid');
-            const categoryCounter = document.getElementById('category-counter');
+            // const categoryCounter = document.getElementById('category-counter');
             const startGameBtn = document.getElementById('start-game-btn');
             const classicCategoriesBtn = document.getElementById('classic-categories-btn');
             const randomCategoriesBtn = document.getElementById('random-categories-btn');
@@ -140,19 +140,20 @@
                 
                 console.log("Updated selected categories:", selectedCategories);  // Debugging: Log the updated array
                 updateCounter();
-            }
-
-            // Function to update category counter and button status
-            function updateCounter() {
-                categoryCounter.textContent = `${selectedCategories.length}/${minCategories} categories selected`;
+                
+                // Emit the updated categories to the server
+                socket.emit('categorySelectionChanged', selectedCategories);
             }
 
             // Function to handle random category selection
             randomCategoriesBtn.addEventListener('click', () => {
+                // If no categories are selected, default to minCategories
+                const numberOfCategoriesToSelect = selectedCategories.length > 0 ? selectedCategories.length : minCategories;
+
                 resetAllCategories();  // Ensure categories are reset before selecting new ones
 
                 // Create a copy of the categories array for random selection
-                const shuffledCategories = [...categories].sort(() => 0.5 - Math.random()).slice(0, minCategories);
+                const shuffledCategories = [...categories].sort(() => 0.5 - Math.random()).slice(0, numberOfCategoriesToSelect);
 
                 shuffledCategories.forEach(category => {
                     const box = document.querySelector(`[data-category="${category}"]`);
@@ -162,6 +163,7 @@
                 });
 
                 updateCounter();
+                socket.emit('categorySelectionChanged', selectedCategories);  // Emit the updated categories to the server
             });
 
             // Click event for "Classic Categories" button
@@ -169,6 +171,7 @@
                 resetAllCategories();  // Ensure categories are reset before selecting new ones
 
                 selectClassicCategories(); // Preselect the first 9 categories (Country to Celebrity)
+                socket.emit('categorySelectionChanged', selectedCategories);  // Emit the updated categories to the server
             });
 
 
@@ -188,6 +191,11 @@
         function showNameModal() {
             const modal = document.getElementById('nameModal');
             modal.style.display = 'block'; // Display the modal
+        }
+
+        // Function to update category counter and button status
+        function updateCounter() {
+            categoryCounter.textContent = `${selectedCategories.length} categories selected`;
         }
 
         function submitName() {
@@ -268,10 +276,40 @@
                 });
             });
 
+            // Listen for updated categories from the server
+            socket.on('updateCategories', (updatedCategories) => {
+                console.log("Received updated categories: ", updatedCategories);  // Log received categories for debugging
+                selectedCategories = updatedCategories;  // Update the selected categories list
+                updateCategoryUI();  // Call the function to visually update the category grid
+            });
+
+            // Function to update the category grid based on the selected categories
+            function updateCategoryUI() {
+                // First reset all categories to unselected
+                const allBoxes = document.querySelectorAll('.category-box');
+                allBoxes.forEach(box => {
+                    box.classList.remove('selected');
+                    box.classList.add('unselected');
+                });
+
+                // Mark only the selected categories as "selected"
+                selectedCategories.forEach(category => {
+                    const box = document.querySelector(`[data-category="${category}"]`);
+                    if (box) {
+                        box.classList.add('selected');
+                        box.classList.remove('unselected');
+                    }
+                });
+
+                // Update the counter to reflect the number of selected categories
+                updateCounter();
+            }
+
             socket.on('isHost', (isHostPlayer) => {
                 if (isHostPlayer) {
                     isHost = true;
-                    document.getElementById('host-controls').classList.remove('hidden');
+                    document.getElementById('start-game-host-controls').classList.remove('hidden'); 
+                    document.getElementById('categories-host-controls').classList.remove('hidden');            
                 }
             });
 
@@ -290,6 +328,7 @@
                 window.location.href = 'play.html';
             });
         }
+        
 
         function startGame() {
             const errorMessage = document.getElementById('error-message');
