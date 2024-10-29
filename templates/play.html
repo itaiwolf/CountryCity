@@ -28,6 +28,17 @@
     </div>
 
     <script>
+        const socket = io();
+        socket.on('connect', () => {
+            const playerId = localStorage.getItem('playerId');  // Retrieve playerId from localStorage
+            const gameCode = getLobbyParams();  // Retrieve game code from URL
+
+            if (playerId && gameCode) {
+                console.log('Socket reconnected, updating player socket with playerId and gameCode');
+                socket.emit('updatePlayerSocket', { playerId, gameCode });  // Emit the event on socket reconnection
+            }
+        });
+        
         let intervalId = null;
 
         function startActivities() {

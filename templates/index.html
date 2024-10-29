@@ -34,19 +34,44 @@
         </div>
     </div>
 
+    <script src="/static/js/player.js"></script>
+    <script src="/static/js/lobby.js"></script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         
-        function startWithFriends() {
-            // Emit an event to create a new game
-            console.log("creat game emitted");
-            socket.emit('createGame');
+        // Helper function to generate unique game code on the client-side
+        function generateGameCode() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();  // Generates a random 6-character code
+        }
 
-            // Listen for game creation to get the generated game code
-            socket.once('gameCreated', ({ gameCode }) => {
+        // generaing a unique code for a new lobby. 
+        // in the future should also add a unique lobby type to each of these two functions!!
+        function startWithFriends() {
+            socket.emit('createGameRequest');  // Request to generate the game code and set this player as the host
+
+            socket.on('gameCodeGenerated', ({ gameCode, hostId }) => {
                 console.log('Game created with code:', gameCode);
-                // Redirect to the lobby page with the new game code
+                console.log('Host ID which is the sessions id received from server:', hostId);
+
+                // Store the gameCode in sessionStorage instead of localStorage
+                sessionStorage.setItem('gameCode', gameCode);
+                sessionStorage.setItem('hostId', hostId);  // Session storage for host ID
+
+                // Redirect to the lobby page with the game code (if you're using the URL)
+                window.location.href = `lobby.html?code=${gameCode}`;
+            });
+        }
+
+
+        // Start game with random people
+        function startWithAnybody() {
+            // Emit an event to create a new game and get the game code from the server
+            socket.emit('createGameRequest'); // Request to generate game code
+
+            // Wait for the server to send back the game code and redirect the player to the lobby with the game code
+            socket.once('gameCodeGenerated', ({ gameCode }) => {
                 window.location.href = `lobby.html?code=${gameCode}`;
             });
         }
@@ -64,7 +89,6 @@
             joinOptions.classList.remove('visible');
         }
 
-
         // Show or hide join game options
         function showJoinGameOptions() {
             const createOptions = document.getElementById('create-game-options');
@@ -79,11 +103,6 @@
             createOptions.classList.remove('visible');
         }
 
-        // Start game with random people
-        function startWithAnybody() {
-            localStorage.setItem('lobbyType', 'strangers');  // Save lobby type
-            // showNameModal();
-        }
 
         // Join game with code
         function joinWithCode() {
@@ -91,12 +110,12 @@
             const errorMessage = document.getElementById('error-message');  // Get the error message element
 
             // Clear previous error message
-            // errorMessage.classList.remove('visible');
+            errorMessage.classList.remove('visible');
 
             if (!gameCode) {
                 // Show error if input is empty
                 errorMessage.classList.remove('hidden');
-                errorMessage.classList.add('visible');  // Make the error message visible with a smooth transition
+                errorMessage.classList.add('visible');  
                 return;
             }
 
@@ -104,17 +123,31 @@
             socket.emit('checkGameCode', gameCode);
 
             // Listen for the server's response on whether the lobby exists
-            socket.once('gameCodeStatus', ({ valid, code }) => {
+            socket.once('gameCodeStatus', ({ valid, gameCode }) => {
                 if (valid) {
-                    // Redirect to the lobby if the code is valid
-                    window.location.href = `lobby.html?code=${code}`;
+                    console.log("gameCode exists!");
+                    console.log(`game code passed to joinGame event is: ${gameCode}`);
+                    socket.emit('joinGame', { gameCode });
                 } else {
-                    // Show error if the code is invalid
-                    errorMessage.classList.remove('hidden');  // Ensure the message is not hidden
-                    errorMessage.classList.add('visible');  // Make the error message visible with a smooth transition
+                    console.log("gameCode does'nt exist");
+
                 }
             });
         }
+
+        // Listen for the server response
+        socket.on('joinedLobby', ({ success, gameCode }) => {
+            if (success) {
+                console.log(`Joined the lobby ${gameCode} successfully`);
+                // Redirect to the lobby page with the game code
+                window.location.href = `/lobby.html?code=${gameCode}`;
+                
+            } else {
+                console.log('Error joining lobby:', message);
+                document.getElementById('error-message').textContent = message;
+                document.getElementById('error-message').classList.remove('hidden');
+            }
+        });
 
 
         function displayErrorMessage(message) {
